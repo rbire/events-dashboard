@@ -17,7 +17,7 @@ import MenuItem from '@material-ui/core/MenuItem';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
 import Back from './common/Back'
-import {Events, Entities} from './common/Lookups';
+import {Events, Entities, EntityEvents} from './common/Lookups';
 import UserContext from './common/UserContext';
 
 const qs = require('query-string');
@@ -96,20 +96,18 @@ const styles = theme => ({
 
 const getSteps = () => {
   return [
-    'Recorder',
-    'Resource',
-    'Transactions',
+    'Event Record',
+    'Confirmation',
     'Done'
   ];
 }
 const events = Object.keys(Events);
 const entities = Object.keys(Entities)
 class Wizard extends Component {
-
   state = {
     activeStep: 0,
     labelWidth: 0,
-    subject:'US-42049-49888-1213666-R-N',
+    subject:'US-'+Math.floor(Math.random()*40000)+'-' + Math.floor(Math.random()*50000) + '-' + Math.floor(Math.random()*200000) + '-R-N',
     subjectType:'Property',
     eventItem:events[0],
     actionItem:Events[events[0]][0]
@@ -118,7 +116,6 @@ class Wizard extends Component {
   componentDidMount() {
 
   }
-
   handleNext = () => {
     this.setState(state => ({
       activeStep: state.activeStep + 1,
@@ -142,13 +139,7 @@ class Wizard extends Component {
   };
 
   stepActions() {
-    if(this.state.activeStep === 3) {
-      return 'Accept';
-    }
-    if(this.state.activeStep === 4) {
-      return 'Send';
-    }
-    if(this.state.activeStep === 3) {
+    if(this.state.activeStep === 2) {
       return 'Done';
     }
     return 'Next';
@@ -170,7 +161,7 @@ class Wizard extends Component {
     const parsed = queryString ? qs.parse(queryString) : {}
     const steps = getSteps();
     const { activeStep } = this.state;
-    let event_items = events.map((v,i)=>{
+    let event_items = EntityEvents[this.context.entity].map((v,i)=>{
       return <MenuItem value={v}>{v}</MenuItem>
     })
     let action_items = Events[this.state.eventItem].map((v,i)=>{
@@ -205,13 +196,8 @@ class Wizard extends Component {
                             Information
                           </Typography>
                           <Typography variant="body1" gutterBottom>
-                            General information about the service
+                            Recording Entity and Event Subject
                           </Typography>
-                        </div>
-                        <div>
-                        <Button variant="outlined" size="large" className={classes.outlinedButtom}>
-                          Edit
-                        </Button>
                         </div>
                       </div>
                       <Grid item container xs={12}>
@@ -231,65 +217,47 @@ class Wizard extends Component {
                         </Grid>
                         <Grid item xs={6}>
                           <Typography style={{textTransform: 'uppercase'}} color='secondary' gutterBottom>
-                            Subject
+                            Subject Type
                           </Typography>
                           <Typography variant="h5" gutterBottom>
                             {this.state.subjectType} 
+                          </Typography>
+                          <Typography style={{textTransform: 'uppercase'}} color='secondary' gutterBottom>
+                            Subject
                           </Typography>
                           <Typography variant="h5" gutterBottom>
                             {this.state.subject}
                           </Typography>
                         </Grid>
-                      </Grid>
-                    </Paper>
-                    </div>
-                  )}
-                  { activeStep === 1 && (
-                  <div className={classes.smallContainer}>
-                    <Paper className={classes.paper}>
-                      <div>
-                        <div style={{marginBottom: 32}}>
-                          <Typography variant="subtitle1" style={{fontWeight: 'bold'}} gutterBottom>
-                            Event information
-                          </Typography>
-                          <Typography variant="body1" gutterBottom>
-                            Select an Event Type
-                          </Typography>
-                        </div>
-                        <div>
-                          <Typography style={{textTransform: 'uppercase', marginBottom: 20}} color='secondary' gutterBottom>
+                        <Grid item xs={6}>
+                          <Typography style={{textTransform: 'uppercase'}} color='secondary' gutterBottom>
                             Event
                           </Typography>
-                          <FormControl variant="outlined" className={classes.formControl}>
-                            <Select
-                              value={this.state.eventItem}
-                              onChange={this.handleChange}
-                              input={
-                                <OutlinedInput
-                                  labelWidth={this.state.labelWidth}
-                                  name="eventItem"
-                                />
-                              }
-                            >
-                              <MenuItem value="">
-                                <em></em>
-                              </MenuItem>
-                              {event_items}
-                            </Select>
-                          </FormControl>
-                        </div>
-                      </div>
-                    </Paper>
-                    </div>
-                  )}
-                  { activeStep === 2 && (
-                  <div className={classes.bigContainer}>
-                    <Paper className={classes.paper}>
-                      <Grid item container xs={12} style={{marginTop: 24}}>
-                        <Grid item xs={6}>
-                          <Typography style={{textTransform: 'uppercase', marginBottom: 20}} color='secondary' gutterBottom>
-                            Actions
+                          <Typography variant="h5" gutterBottom>
+                              <FormControl variant="outlined" className={classes.formControl}>
+                                <Select
+                                  value={this.state.eventItem}
+                                  onChange={this.handleChange}
+                                  input={
+                                    <OutlinedInput
+                                      labelWidth={this.state.labelWidth}
+                                      name="eventItem"
+                                    />
+                                  }
+                                >
+                                  <MenuItem value="">
+                                    <em></em>
+                                  </MenuItem>
+                                  {event_items}
+                                </Select>
+                              </FormControl>
                           </Typography>
+                          </Grid>
+                        <Grid item xs={6}>
+                          <Typography style={{textTransform: 'uppercase'}} color='secondary' gutterBottom>
+                            Action
+                          </Typography>
+                          <Typography variant="h5" gutterBottom>
                           <FormControl variant="outlined" className={classes.formControl}>
                             <Select
                               value={this.state.actionItem}
@@ -307,12 +275,15 @@ class Wizard extends Component {
                               {action_items}
                             </Select>
                           </FormControl>
+                          </Typography>
                         </Grid>
+
+
                       </Grid>
                     </Paper>
                     </div>
                   )}
-                  { (activeStep === 3 || activeStep === 4) && (
+                  { (activeStep === 1) && (
                   <div className={classes.smallContainer}>
                     <Paper className={classes.paper}>
                       <Grid item container xs={12}>

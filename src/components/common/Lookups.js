@@ -4,7 +4,13 @@ export const Events = {
     'Listing':['Active','Pending','Sold'],
     'Offer':['Received','Accepted','Rejected'],
     'Sale':['Pending','Closed'],
-    'Construction':['Started','Completed']
+    'Construction':['Started','Completed'],
+    'Project':['Approved','Rejected'],
+    'Documents':['Signed','Uploaded','Updated'],
+    'Title':['Changed'],
+    'Lein' : ['Recorded','Removed'],
+    'Funds' : ['Available','Transferred','Cancelled'],
+    'Deed':['Recorded']
 }
 
 export const Entities = {
@@ -19,5 +25,19 @@ export const Entities = {
 'MLS':['MLS001','MLS002'],
 'Owner':['ONR001','ONR002'],
 'Vendor':['VNDR001','VNDR002']
+}
+
+export const EntityEvents = {
+    'Agent' :['Offer','Contract','Price'],
+    'Broker':['Contract','Sale'],
+    'Builder':['Construction'],
+    'Buyer':['Offer','Contract'],
+    'City':['Project','Construction'],
+    'County':['Title','Deed'],
+    'Escrow':['Documents','Title'],
+    'Lender':['Lein','Funds'],
+    'MLS':['Listing','Sale','Price'],
+    'Owner':['Offer'],
+    'Vendor':['Listing']    
 }
 export default Event;

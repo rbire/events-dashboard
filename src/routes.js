@@ -13,9 +13,9 @@ export default props => (
         <Switch>
           <Route exact path='/' component={ Main } />
           <Route exact path='/dashboard' component={ Dashboard } />
-          <Route exact path='/signup' component={ Signup } />
-          <Route exact path='/wizard' component={ Wizard } />
-          <Route exact path='/cards' component={ Cards } />
+          <Route exact path='/entity' component={ Signup } />
+          <Route exact path='/event' component={ Wizard } />
+          <Route exact path='/ledger' component={ Cards } />
         </Switch>
       </ScrollToTop>
     </HashRouter>

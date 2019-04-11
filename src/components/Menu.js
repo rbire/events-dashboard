@@ -8,18 +8,17 @@ const Menu = [
     pathname: "/dashboard"
   },
   {
-    label: "Signup",
-    pathname: "/signup"
+    label: "Entity",
+    pathname: "/entity"
   },
   {
-    label: "Wizard",
-    pathname: "/wizard"
+    label: "Event",
+    pathname: "/event"
   },
   {
-    label: "Cards",
-    pathname: "/cards"
+    label: "Ledger",
+    pathname: "/ledger"
   }
-
 ];
 
 export default Menu;

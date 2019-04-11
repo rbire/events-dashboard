@@ -115,14 +115,16 @@ class Dashboard extends Component {
 
   state = {
     loading: false,
-    start: 5,
-    counts: [1000,1500,850,1200,600,900],
+    start: events.length,
+    counts: events.map((e) => {
+        return Math.round(1000*Math.random());
+    }),
     data: []
   };
 
   updateValues() {
     const { start, counts } = this.state;
-    const data = Array.from({length:start+1}, (value, i) => {
+    const data = Array.from({length:start}, (value, i) => {
       return {
         name: events[i],
         'Event': counts[i]
@@ -167,32 +169,6 @@ class Dashboard extends Component {
                   </div>
                 </div>
               </Grid>
-              <Grid item xs={12} md={4}>
-                <Paper className={classes.paper}>
-                  <div>
-                    <Typography variant="subtitle1" gutterBottom>
-                      Events
-                    </Typography>
-                    <Typography variant="body1">
-                      Select Events
-                    </Typography>
-                    <div className={classes.blockCenter}>
-                      <Typography color='secondary' variant="h6" gutterBottom>
-                        {events[start]}
-                      </Typography>
-                    </div>
-                    <div>
-                      <Slider
-                        value={start}
-                        min={0}
-                        max={5}
-                        step={1}
-                        onChange={this.handleChangeStart}
-                      />
-                    </div>
-                  </div>
-                </Paper>
-              </Grid>
               <Grid container spacing={24} justify="center">
                 <Grid item xs={12} md={12} >
                   <Paper className={classes.paper} style={{position: 'relative'}}>
@@ -219,6 +195,32 @@ class Dashboard extends Component {
                   </Paper>
               </Grid>
               </Grid>
+              <Grid item xs={12} md={4}>
+                <Paper className={classes.paper}>
+                  <div>
+                    <Typography variant="subtitle1" gutterBottom>
+                      Events
+                    </Typography>
+                    <Typography variant="body1">
+                      Select Events
+                    </Typography>
+                    <div className={classes.blockCenter}>
+                      <Typography color='secondary' variant="h6" gutterBottom>
+                        {events[start]}
+                      </Typography>
+                    </div>
+                    <div>
+                      <Slider
+                        value={start}
+                        min={1}
+                        max={12}
+                        step={1}
+                        onChange={this.handleChangeStart}
+                      />
+                    </div>
+                  </div>
+                </Paper>
+              </Grid>              
             </Grid>
           </Grid>
         </div>

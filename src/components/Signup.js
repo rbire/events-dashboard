@@ -159,9 +159,6 @@ class Signup extends Component {
       return 'Sign in';
     }
     if(this.state.activeStep === 1) {
-      return 'Next';
-    }
-    if(this.state.activeStep === 2) {
       return 'Accept';
     }
     return 'Next';
@@ -257,25 +254,6 @@ class Signup extends Component {
                     </div>
                   )}
                   { activeStep === 1 && (
-                  <div className={classes.smallContainer}>
-                    <Paper className={classes.paper}>
-                      <Grid item container xs={12}>
-                        <Grid item xs={12}>
-                          <Typography variant="subtitle1" gutterBottom>
-                            Sign & confirm
-                          </Typography>
-                          <Typography variant="body1" gutterBottom>
-                            Sign and confirm loan agreement
-                          </Typography>
-                          <Typography variant="body1" gutterBottom>
-                            One text to explain that
-                          </Typography>
-                        </Grid>
-                      </Grid>
-                    </Paper>
-                    </div>
-                  )}
-                  { activeStep === 2 && (
                   <div className={classes.smallContainer}>
                     <Paper className={classes.paper}>
                       <div>
