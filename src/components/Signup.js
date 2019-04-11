@@ -105,8 +105,7 @@ const styles = theme => ({
 const getSteps = () => {
   return [
     'User',
-    'Signin',
-    'Permission'
+    'Signin'
   ];
 }
 const entities = Object.keys(Entities)
@@ -129,7 +128,7 @@ class Signup extends Component {
     this.setState(state => ({
       activeStep: state.activeStep + 1,
     }));
-    if(this.state.activeStep === 2) {
+    if(this.state.activeStep === 1) {
       setTimeout(() => this.props.history.push('/dashboard'), 5000)
     }
   };
@@ -159,7 +158,7 @@ class Signup extends Component {
       return 'Sign in';
     }
     if(this.state.activeStep === 1) {
-      return 'Accept';
+      return 'Confirm';
     }
     return 'Next';
   }
@@ -288,7 +287,7 @@ class Signup extends Component {
                     </Paper>
                     </div>
                   )}
-                  { activeStep === 3 && (
+                  { activeStep === 2 && (
                   <div className={classes.bigContainer}>
                     <Paper className={classes.paper}>
                       <div style={{display: 'flex', justifyContent: 'center'}}>
@@ -322,9 +321,9 @@ class Signup extends Component {
                     </Paper>
                     </div>
                   )}
-                  { activeStep !== 3 && (
+                  { activeStep !== 2 && (
                      <div className={classes.buttonBar}>
-                     { activeStep !== 2 ? (
+                     { activeStep !== 1 ? (
                        <Button
                        disabled={activeStep === 0}
                        onClick={this.handleBack}
