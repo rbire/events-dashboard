@@ -1,4 +1,4 @@
-# React Material UI template - Material Sense
+# RESO Event Catalog  - Basic Dashboard
 A full simple application for react material ui
 
 ## Features

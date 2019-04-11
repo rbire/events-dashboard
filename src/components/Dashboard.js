@@ -9,7 +9,7 @@ import Slider from '@material-ui/lab/Slider';
 import Button from '@material-ui/core/Button';
 import Avatar from '@material-ui/core/Avatar';
 import SimpleLineChart from './SimpleLineChart';
-import Events from './common/Lookups';
+import {Events} from './common/Lookups';
 import VerifiedUserIcon from '@material-ui/icons/VerifiedUser';
 import Loading from './common/Loading';
 
@@ -145,7 +145,6 @@ class Dashboard extends Component {
     const { start,
       data, loading } = this.state;
     const currentPath = this.props.location.pathname
-    console.log(this.state);
     return (
       <React.Fragment>
         <CssBaseline />
