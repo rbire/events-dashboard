@@ -3,6 +3,7 @@ import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
 import './App.css';
 import Routes from './routes'
 import { blue, indigo } from '@material-ui/core/colors'
+import UserContext from './components/common/UserContext';
 
 const theme = createMuiTheme({
   palette: {
@@ -22,15 +23,27 @@ const theme = createMuiTheme({
   }
 });
 
-
+var context = {
+  entity:"Agent",
+  recorder:"AGNT002",
+  handleChange:(state) => {
+    context.entity = state.entity;
+    context.recorder = state.recorder;
+  }
+}
 class App extends Component {
+  constructor(props) {
+    super(props);
+  } 
   render() {
     return (
+      <UserContext.Provider value={context}>
       <div>
         <MuiThemeProvider theme={theme}>
           <Routes />
         </MuiThemeProvider>
       </div>
+      </UserContext.Provider>
     );
   }
 }

@@ -22,6 +22,7 @@ import CircularProgress from '@material-ui/core/CircularProgress';
 import Fade from '@material-ui/core/Fade';
 import Back from './common/Back';
 import {Entities} from './common/Lookups';
+import UserContext from './common/UserContext';
 
 const backgroundShape = require('../images/shape.svg');
 
@@ -111,7 +112,6 @@ const getSteps = () => {
 const entities = Object.keys(Entities)
 
 class Signup extends Component {
-
   state = {
     activeStep: 0,
     entity:entities[0],
@@ -168,7 +168,6 @@ class Signup extends Component {
   }
 
   render() {
-
     const { classes } = this.props;
     const steps = getSteps();
     const { activeStep, loading } = this.state;
@@ -234,6 +233,7 @@ class Signup extends Component {
                               </MenuItem>
                               {entity_items}
                             </Select>
+                                
                             <Select
                               value={this.state.recorder}
                               onChange={this.handleChange}
@@ -249,9 +249,9 @@ class Signup extends Component {
                               </MenuItem>
                               {recorder_items}
                             </Select>
-
                           </FormControl>
-                        </div>
+
+                      </div>
                       </div>
                     </Paper>
                     </div>
@@ -323,6 +323,11 @@ class Signup extends Component {
                               We are processing your request
                             </Typography>
                           </div>
+                          <UserContext.Consumer>
+                              {({handleChange}) => ( 
+                                <span>{handleChange(this.state)}</span>    
+                              )}
+                          </UserContext.Consumer>
                           <div>
                             <Fade
                               in={loading}

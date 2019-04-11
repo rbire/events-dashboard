@@ -18,6 +18,7 @@ import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
 import Back from './common/Back'
 import {Events, Entities} from './common/Lookups';
+import UserContext from './common/UserContext';
 
 const qs = require('query-string');
 const backgroundShape = require('../images/shape.svg');
@@ -108,8 +109,6 @@ class Wizard extends Component {
   state = {
     activeStep: 0,
     labelWidth: 0,
-    entity:entities[0],
-    recorder:Entities[entities[0]][0],
     subject:'US-42049-49888-1213666-R-N',
     subjectType:'Property',
     eventItem:events[0],
@@ -221,13 +220,13 @@ class Wizard extends Component {
                             Entity
                           </Typography>
                           <Typography variant="h5" gutterBottom>
-                            {this.state.entity}
+                            {this.context.entity}
                            </Typography>
                           <Typography style={{textTransform: 'uppercase'}} color='secondary' gutterBottom>
                             Recorder
                           </Typography>
                           <Typography variant="h5" gutterBottom>
-                            {this.state.recorder}
+                            {this.context.recorder}
                            </Typography>
                         </Grid>
                         <Grid item xs={6}>
@@ -322,7 +321,7 @@ class Wizard extends Component {
                             Congratulations <span role="img" aria-label="conrats emoji">🎉</span>
                           </Typography>
                           <Typography variant="body1" gutterBottom>
-                            {this.state.entity} {this.state.recorder} successfully submitted {this.state.eventItem} {this.state.actionItem} event for {this.state.subjectType} {this.state.subject}
+                            {this.context.entity} {this.context.recorder} successfully submitted {this.state.eventItem} {this.state.actionItem} event for {this.state.subjectType} {this.state.subject}
                           </Typography>
                           <Button fullWidth variant='outlined'>
                             Checkout the Dashboard
@@ -362,4 +361,5 @@ class Wizard extends Component {
     )
   }
 }
+Wizard.contextType = UserContext;
 export default withRouter(withStyles(styles)(Wizard));

@@ -14,6 +14,7 @@ import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import SwipeableDrawer from '@material-ui/core/SwipeableDrawer';
 import Menu from './Menu';
+import UserContext from './common/UserContext';
 
 const logo = require('../images/logo.svg');
 
@@ -173,6 +174,18 @@ class Topbar extends Component {
                       </div>
                     </React.Fragment>
                   )}
+                  <div className={classes.inline}>
+                    <Typography variant="h6" color="inherit" noWrap>
+                      <Link to='/' className={classes.link}>
+                        <img width={20} alt="" />
+                        <UserContext.Consumer>
+                              {({recorder}) => (
+                                <span className={classes.tagline}>{recorder}</span>
+                              )}
+                          </UserContext.Consumer>
+                      </Link>
+                    </Typography>
+                  </div>                  
               </Grid>
             </Grid>
         </Toolbar>
