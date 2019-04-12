@@ -8,13 +8,11 @@ import Grid from '@material-ui/core/Grid';
 import Slider from '@material-ui/lab/Slider';
 import Button from '@material-ui/core/Button';
 import Avatar from '@material-ui/core/Avatar';
-import SimpleLineChart from './SimpleLineChart';
 import {Events} from './common/Lookups';
 import VerifiedUserIcon from '@material-ui/icons/VerifiedUser';
 import Loading from './common/Loading';
-
 import Topbar from './Topbar';
-
+import Ecm from './common/Monitor';
 const numeral = require('numeral');
 numeral.defaultFormat('0,000');
 
@@ -114,38 +112,11 @@ const events = Object.keys(Events);
 class Dashboard extends Component {
 
   state = {
-    loading: false,
-    start: events.length,
-    counts: events.map((e) => {
-        return Math.round(1000*Math.random());
-    }),
-    data: []
+    loading: false
   };
-
-  updateValues() {
-    const { start, counts } = this.state;
-    const data = Array.from({length:start}, (value, i) => {
-      return {
-        name: events[i],
-        'Event': counts[i]
-      }
-    })
-    this.setState({data})
-  }
-
-  componentDidMount() {
-    this.updateValues();
-  }
-
-  handleChangeStart = (event, value) => {
-    this.setState({start: value, loading: false});
-    this.updateValues();
-  }
-
   render() {
     const { classes } = this.props;
-    const { start,
-      data, loading } = this.state;
+    const { loading } = this.state;
     const currentPath = this.props.location.pathname
     return (
       <React.Fragment>
@@ -154,32 +125,11 @@ class Dashboard extends Component {
         <div className={classes.root}>
           <Grid container justify="center">
             <Grid spacing={24} alignItems="center" justify="center" container className={classes.grid}>
-              <Grid item xs={12}>
-                <div className={classes.topBar}>
-                  <div className={classes.block}>
-                    <Typography variant="h6" gutterBottom>Dashboard</Typography>
-                    <Typography variant="body1">
-                      Adjust and play with our sliders.
-                    </Typography>
-                  </div>
-                  <div>
-                    <Button variant="outlined" className={classes.outlinedButtom}>
-                      Get help
-                    </Button>
-                  </div>
-                </div>
-              </Grid>
               <Grid container spacing={24} justify="center">
                 <Grid item xs={12} md={12} >
                   <Paper className={classes.paper} style={{position: 'relative'}}>
                     <Loading loading={loading} />
                     <div className={loading ? classes.loadingState : ''}>
-                      <Typography variant="subtitle1" gutterBottom>
-                        Some details
-                      </Typography>
-                      <Typography variant="body1">
-                        Details about the graph
-                      </Typography>
                       <div style={{marginTop: 14, marginBottom: 14}}>
                         <div className={classes.inlining}>
                           <Avatar className={classes.loanAvatar}></Avatar>
@@ -189,38 +139,12 @@ class Dashboard extends Component {
                         </div>
                       </div>
                       <div >
-                        <SimpleLineChart data={data} />
+                        <Ecm/>
                       </div>
                     </div>
                   </Paper>
               </Grid>
               </Grid>
-              <Grid item xs={12} md={4}>
-                <Paper className={classes.paper}>
-                  <div>
-                    <Typography variant="subtitle1" gutterBottom>
-                      Events
-                    </Typography>
-                    <Typography variant="body1">
-                      Select Events
-                    </Typography>
-                    <div className={classes.blockCenter}>
-                      <Typography color='secondary' variant="h6" gutterBottom>
-                        {events[start]}
-                      </Typography>
-                    </div>
-                    <div>
-                      <Slider
-                        value={start}
-                        min={1}
-                        max={12}
-                        step={1}
-                        onChange={this.handleChangeStart}
-                      />
-                    </div>
-                  </div>
-                </Paper>
-              </Grid>              
             </Grid>
           </Grid>
         </div>
@@ -228,5 +152,4 @@ class Dashboard extends Component {
     )
   }
 }
-
 export default withRouter(withStyles(styles)(Dashboard));
