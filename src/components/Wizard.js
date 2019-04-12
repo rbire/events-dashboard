@@ -10,6 +10,8 @@ import Stepper from '@material-ui/core/Stepper';
 import Step from '@material-ui/core/Step';
 import StepLabel from '@material-ui/core/StepLabel';
 import OutlinedInput from '@material-ui/core/OutlinedInput';
+import CircularProgress from '@material-ui/core/CircularProgress';
+import Fade from '@material-ui/core/Fade';
 import FormGroup from '@material-ui/core/FormGroup';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Checkbox from '@material-ui/core/Checkbox';
@@ -105,6 +107,8 @@ const events = Object.keys(Events);
 const entities = Object.keys(Entities)
 class Wizard extends Component {
   state = {
+    loading:false,
+    tx_id:'waiting for confirmation.....',
     activeStep: 0,
     labelWidth: 0,
     subject:'US-'+Math.floor(Math.random()*40000)+'-' + Math.floor(Math.random()*50000) + '-' + Math.floor(Math.random()*200000) + '-R-N',
@@ -117,8 +121,31 @@ class Wizard extends Component {
 
   }
   handleNext = () => {
+    if(this.state.activeStep==0){
+      this.context.events.ledger.recordEvents({
+        'arg_0':this.state.subject,
+        'arg_1':this.context.system,
+        'arg_2':this.state.subjectType,
+        'arg_3':this.context.entity,
+        'arg_4':this.state.eventItem,
+        'arg_5':this.state.actionItem,
+        'arg_6':new Date(),
+        'arg_7':'TestNet',
+        'arg_8':'1.0',
+        'arg_9':this.context.recorder
+        }, this.handleConfirmation);
+    }
     this.setState(state => ({
       activeStep: state.activeStep + 1,
+      loading:true,
+    }));
+  };
+
+  handleConfirmation = (id)=>{
+    this.setState(state=>({
+      tx_id: id,
+      activeStep: state.activeStep + 1,
+      loading:false,
     }));
   };
 
@@ -139,6 +166,9 @@ class Wizard extends Component {
   };
 
   stepActions() {
+    if(this.state.activeStep === 1) {
+      return 'Waiting';
+    }
     if(this.state.activeStep === 2) {
       return 'Done';
     }
@@ -153,9 +183,16 @@ class Wizard extends Component {
       search: queryString
     })
   }
+  goToLedger = event => {
+    const queryString = this.props.location.search
+
+    this.props.history.push({
+      pathname: '/ledger',
+      search: queryString
+    })
+  }
 
   render() {
-
     const { classes } = this.props;
     const queryString = this.props.location.search
     const parsed = queryString ? qs.parse(queryString) : {}
@@ -289,36 +326,55 @@ class Wizard extends Component {
                       <Grid item container xs={12}>
                         <Grid item xs={12}>
                           <Typography variant="subtitle1" gutterBottom>
-                            Congratulations <span role="img" aria-label="conrats emoji">🎉</span>
+                            Waiting for confirmation:
                           </Typography>
                           <Typography variant="body1" gutterBottom>
-                            {this.context.entity} {this.context.recorder} successfully submitted {this.state.eventItem} {this.state.actionItem} event for {this.state.subjectType} {this.state.subject}
+                            {this.context.entity} {this.context.recorder} submitted {this.state.eventItem} {this.state.actionItem} event for {this.state.subjectType} {this.state.subject}
                           </Typography>
-                          <Button fullWidth variant='outlined'>
-                            Checkout the Dashboard
-                          </Button>
+                          <Typography variant="body2" gutterBottom>
+                          <div>
+                            <Fade
+                              in={this.state.loading}
+                              style={{
+                                transitionDelay: this.state.loading ? '800ms' : '0ms',
+                              }}
+                              unmountOnExit
+                            >
+                              <CircularProgress style={{marginBottom: 32, width: 100, height: 100}} />
+                            </Fade>
+                          </div>
+                          </Typography>
                         </Grid>
                       </Grid>
                     </Paper>
                     </div>
                   )}
+
+                  { (activeStep === 2) && (
+                  <div className={classes.smallContainer}>
+                    <Paper className={classes.paper}>
+                      <Grid item container xs={12}>
+                        <Grid item xs={12}>
+                          <Typography variant="subtitle1" gutterBottom>
+                            Success <span role="img" aria-label="conrats emoji">🎉</span>
+                          </Typography>
+                          <Typography variant="subtitle1" gutterBottom>
+                            Transaction Id:
+                          </Typography>
+                          <Typography variant="body1" gutterBottom>
+                            {this.state.tx_id}
+                          </Typography>
+                        </Grid>
+                      </Grid>
+                    </Paper>
+                    </div>
+                  )}                  
                   <div className={classes.flexBar}>
-                    { activeStep !== 5 && (
-                      <Button
-                      disabled={activeStep === 0}
-                      onClick={this.handleBack}
-                      className={classes.backButton}
-                      size='large'
-                      >
-                        Back
-                      </Button>
-                    )}
                     <Button
                       variant="contained"
                       color="primary"
-                      onClick={activeStep !== 5 ? this.handleNext : this.goToDashboard}
+                      onClick={activeStep < 1 ? this.handleNext : this.goToLedger}
                       size='large'
-                      disabled={this.state.activeStep === 3 && !this.state.termsChecked}
                     >
                       {this.stepActions()}
                     </Button>

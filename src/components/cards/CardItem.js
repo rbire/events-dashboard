@@ -92,6 +92,12 @@ class CardItem extends Component {
               <Typography variant="h6" gutterBottom>
                 {tx.transaction.Subject}
               </Typography>
+              <Typography style={{ textTransform: 'uppercase' }} color='secondary' gutterBottom>
+                Recorder
+              </Typography>
+              <Typography variant="h6" gutterBottom>
+                {tx.transaction.Recorder}
+              </Typography>
             </div>
           </div>
         </Paper>

@@ -5,7 +5,7 @@ import Routes from './routes'
 import { blue, indigo } from '@material-ui/core/colors'
 import UserContext from './components/common/UserContext';
 import EventCatalog from './components/common/events';
-
+import Ledger from './components/common/Ledger'
 const theme = createMuiTheme({
   palette: {
     secondary: {
@@ -25,9 +25,11 @@ const theme = createMuiTheme({
 });
 
 var context = {
+  system:'Event Test System',
   entity:"Agent",
   recorder:"AGNT002",
   events:{
+    ledger:new Ledger('http://192.168.99.100:31481/'),
     host:'http://192.168.99.100:30598/',
     block:3,
     filter : [],
@@ -54,8 +56,14 @@ var context = {
   },
   registerCallback:(cb)=>{
     context.events.callbacks.push(cb);
+  },
+  queryLedger:(query, data)=>{
+      context.events.ledger.queryEvents('a1',(data)=>{
+        console.log(data);
+      })
   }
 }
+
 
 class App extends Component {
   constructor(props) {
