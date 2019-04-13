@@ -25,7 +25,7 @@ const styles = theme => ({
   }
 })
 
-class Cards extends Component {
+class Events extends Component {
   constructor(props) {
     super(props)
     this.state = {
@@ -64,5 +64,5 @@ class Cards extends Component {
   }
 }
 
-Cards.contextType = UserContext;
-export default withStyles(styles)(Cards);
+Events.contextType = UserContext;
+export default withStyles(styles)(Events);

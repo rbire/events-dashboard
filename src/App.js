@@ -56,11 +56,6 @@ var context = {
   },
   registerCallback:(cb)=>{
     context.events.callbacks.push(cb);
-  },
-  queryLedger:(query, data)=>{
-      context.events.ledger.queryEvents('a1',(data)=>{
-        console.log(data);
-      })
   }
 }
 

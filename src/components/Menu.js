@@ -1,9 +1,5 @@
 const Menu = [
   {
-    label: "Home",
-    pathname: "/"
-  },
-  {
     label: "Dashboard",
     pathname: "/dashboard"
   },
@@ -12,13 +8,17 @@ const Menu = [
     pathname: "/entity"
   },
   {
-    label: "Event",
-    pathname: "/event"
+    label: "Events",
+    pathname: "/events"
   },
   {
     label: "Ledger",
     pathname: "/ledger"
-  }
+  },
+  {
+    label: "Record",
+    pathname: "/record"
+  },
 ];
 
 export default Menu;

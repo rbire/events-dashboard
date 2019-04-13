@@ -2,8 +2,7 @@ import React, { Component } from 'react';
 import withStyles from '@material-ui/core/styles/withStyles';
 import Typography from '@material-ui/core/Typography';
 import Paper from '@material-ui/core/Paper';
-import { Link as RouterLink } from 'react-router-dom'
-import Link from '@material-ui/core/Link';
+import mappings from '../common/mappings.js'
 
 const styles = theme => ({
   paper: {
@@ -58,7 +57,7 @@ const styles = theme => ({
   }
 })
 
-class CardItem extends Component {
+class Tx extends Component {
   goToEvent = event => {
     this.props.history.push({
       pathname: '/Event?subject=' + event.target.value,
@@ -68,8 +67,15 @@ class CardItem extends Component {
 
   render() {
     const { classes } = this.props;
-    const tx = this.props.tx;
-    const eventLink="/Ledger?subject="+tx.transaction.Subject;
+    const tx = {};
+    Object.keys(this.props.tx).forEach(
+        (col)=>
+        {
+            let key = (mappings[col]!='undefined' ? mappings[col]:col);
+            let val = this.props.tx[col];
+            tx[key] = val;
+        })
+    
     return (
       <div className={classes.root}>
         <Paper className={classes.paper}>
@@ -77,38 +83,27 @@ class CardItem extends Component {
             <div className={classes.baseline}>
               <div className={classes.inline}>
                 <Typography variant="h6" gutterBottom>
-                  {tx.block}
                 </Typography>
               </div>
               <div className={classes.inline}>
                 <Typography style={{ textTransform: 'uppercase' }} color='secondary' gutterBottom>
-                  Event
+                  {tx.System}
                 </Typography>
                 <Typography variant="h6" gutterBottom>
-                  {tx.transaction.Event}
+                  {tx.Event}&nbsp;{tx.Action}
                 </Typography>
-                <Typography variant="h6" gutterBottom>
-                  {tx.transaction.Action}
-                </Typography>
+                  {tx.Subject}
                 <Typography variant="body2" gutterBottom>
-                  {tx.transaction.DateTime}
+                  {tx.DateTime}
                 </Typography>
               </div>
             </div>
             <div className={classes.inlineRight}>
-              <Typography style={{ textTransform: 'uppercase' }} color='secondary' gutterBottom>
-                Subject
+              <Typography variant="h6" gutterBottom>
+                {tx.Entity}
               </Typography>
               <Typography variant="h6" gutterBottom>
-              <Link component={RouterLink} to={eventLink}>
-                {tx.transaction.Subject}
-              </Link>
-              </Typography>
-              <Typography style={{ textTransform: 'uppercase' }} color='secondary' gutterBottom>
-                Recorder
-              </Typography>
-              <Typography variant="h6" gutterBottom>
-                {tx.transaction.Recorder}
+                {tx.Recorder}
               </Typography>
             </div>
           </div>
@@ -118,4 +113,4 @@ class CardItem extends Component {
   }
 }
 
-export default withStyles(styles)(CardItem);
+export default withStyles(styles)(Tx);

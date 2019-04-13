@@ -111,12 +111,17 @@ class Wizard extends Component {
     tx_id:'waiting for confirmation.....',
     activeStep: 0,
     labelWidth: 0,
-    subject:'US-'+Math.floor(Math.random()*40000)+'-' + Math.floor(Math.random()*50000) + '-' + Math.floor(Math.random()*200000) + '-R-N',
+    subject:'',
     subjectType:'Property',
     eventItem:events[0],
     actionItem:Events[events[0]][0]
   }
-
+  componentWillMount(){
+    const queryString = this.props.location.search
+    const parse = queryString ? qs.parse(queryString):{}
+    this.state.subject = parse.subject? parse.subject : 
+    'US-'+Math.floor(Math.random()*40000)+'-' + Math.floor(Math.random()*50000) + '-' + Math.floor(Math.random()*200000) + '-R-N'
+  }
   componentDidMount() {
 
   }
@@ -195,7 +200,9 @@ class Wizard extends Component {
   render() {
     const { classes } = this.props;
     const queryString = this.props.location.search
-    const parsed = queryString ? qs.parse(queryString) : {}
+    const parse = queryString ? qs.parse(queryString):{}
+    const subject = parse.subject? parse.subject : this.state.subject
+
     const steps = getSteps();
     const { activeStep } = this.state;
     let event_items = EntityEvents[this.context.entity].map((v,i)=>{
@@ -263,7 +270,7 @@ class Wizard extends Component {
                             Subject
                           </Typography>
                           <Typography variant="h5" gutterBottom>
-                            {this.state.subject}
+                            {subject}
                           </Typography>
                         </Grid>
                         <Grid item xs={6}>
