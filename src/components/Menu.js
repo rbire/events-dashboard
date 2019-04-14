@@ -14,11 +14,7 @@ const Menu = [
   {
     label: "Ledger",
     pathname: "/ledger"
-  },
-  {
-    label: "Record",
-    pathname: "/record"
-  },
+  }
 ];
 
 export default Menu;

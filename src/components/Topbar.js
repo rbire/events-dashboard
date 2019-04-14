@@ -115,9 +115,6 @@ class Topbar extends Component {
     if(this.props.currentPath === '/ledger') {
       return 3
     }
-    if(this.props.currentPath === '/record') {
-      return 4
-    }
   }
 
   render() {

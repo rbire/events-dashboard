@@ -5,10 +5,7 @@ import CssBaseline from '@material-ui/core/CssBaseline';
 import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
 import Grid from '@material-ui/core/Grid';
-import Slider from '@material-ui/lab/Slider';
-import Button from '@material-ui/core/Button';
 import Avatar from '@material-ui/core/Avatar';
-import {Events} from './common/Lookups';
 import VerifiedUserIcon from '@material-ui/icons/VerifiedUser';
 import Loading from './common/Loading';
 import Topbar from './Topbar';
@@ -107,10 +104,7 @@ const styles = theme => ({
   }
 });
 
-const events = Object.keys(Events);
-
 class Dashboard extends Component {
-
   state = {
     loading: false
   };

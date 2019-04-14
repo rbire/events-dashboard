@@ -5,19 +5,25 @@ class Ecm extends Component {
   constructor(props) {
     super(props)
     this.state = {
-        data:[]
+        events:[],
+        recorders:[]
     }
   }
   handleEvent(){
-    this.setState({data:this.context.events.counts});
+    this.setState({events:this.context.events.event_counts});
+    this.setState({recorders:this.context.events.recorder_counts});
   }
   componentWillMount(){
-    this.setState({data:this.context.events.counts});
+    this.setState({events:this.context.events.event_counts});
+    this.setState({recorders:this.context.events.recorder_counts});
     this.context.registerCallback(this.handleEvent.bind(this));
   }                  
   render() {
     return (
-      <SimpleLineChart data={this.state.data} />
+      <div>
+      <SimpleLineChart data={this.state.events} />
+      <SimpleLineChart data={this.state.recorders} />
+      </div>
     )
   }
 }

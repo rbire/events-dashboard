@@ -31,23 +31,30 @@ var context = {
   events:{
     ledger:new Ledger('http://192.168.99.100:31481/'),
     host:'http://192.168.99.100:30598/',
-    block:3,
+    block:'3',
     filter : [],
     data:[],
-    counts:[],
+    event_counts:[],
+    recorder_counts:[],
     callbacks : []
   },
   handleChange:(state) => {
     context.entity = state.entity;
     context.recorder = state.recorder;
   },
-  handleEvent:(tx,counts) => {
+  handleEvent:(tx,events,recorders) => {
     context.events.tx = tx;
     context.events.data.push(tx);
-    context.events.counts = Object.keys(counts).map((key, i) => {
+    context.events.event_counts = Object.keys(events).map((key, i) => {
       return {
         name: key,
-        'Event': counts[key]
+        'Event': events[key]
+      }
+    });
+    context.events.recorder_counts = Object.keys(recorders).map((key, i) => {
+      return {
+        name: key,
+        'Event': recorders[key]
       }
     });
     context.events.callbacks.forEach(cb=>{
@@ -64,8 +71,8 @@ class App extends Component {
   constructor(props) {
     super(props);
     let catalog = new EventCatalog(context.events.host);
-    catalog.Sync(context.events.block,context.events.filter, (tx, counts) => {
-      context.handleEvent(tx,counts); 
+    catalog.Sync(context.events.block,context.events.filter, (tx, events,recorders) => {
+      context.handleEvent(tx,events,recorders); 
     });                  
   } 
   render() {

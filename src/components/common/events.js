@@ -2,7 +2,8 @@ import React, { Component } from 'react'
 import socketIOClient from 'socket.io-client'
 import mappings from './mappings.js'
 export function EventCatalog(conn){
-    this.Counts = {}
+    this.Events = {}
+    this.Recorders = {}
     this.Data = [];
     this.Socket = null;
     this.Sync = function(block, filter, cb){
@@ -25,11 +26,14 @@ export function EventCatalog(conn){
                         let val = tx[col];
                         tx_mapped[key] = val;
                         if(key=='Event'){
-                            this.Counts[val] = this.Counts[val]===undefined ? 1 : this.Counts[val]+1                
+                            this.Events[val] = this.Events[val]===undefined ? 1 : this.Events[val]+1                
+                        }
+                        if(key=='Recorder'){
+                            this.Recorders[val] = this.Recorders[val]===undefined ? 1 : this.Recorders[val]+1                
                         }
                     })
                 msg.transaction = tx_mapped;
-                cb(msg,this.Counts);    
+                cb(msg,this.Events, this.Recorders);    
             }
         });    
     }

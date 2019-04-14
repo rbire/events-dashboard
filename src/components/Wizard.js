@@ -193,7 +193,7 @@ class Wizard extends Component {
 
     this.props.history.push({
       pathname: '/ledger',
-      search: queryString
+      search: 'subject='+this.state.subject
     })
   }
 
