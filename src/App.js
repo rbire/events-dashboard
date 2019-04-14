@@ -31,8 +31,8 @@ var context = {
   recorder:"AGNT002",
   events:{
     ledger:new Ledger('http://192.168.99.100:31481/'),
-    showOnly:'Contract Signed',
-    startAt:'',
+    showOnly:'1.0',
+    startAt:'Most Recent',
     data:[],
     event_counts:[],
     recorder_counts:[],

@@ -17,6 +17,7 @@ export function EventCatalog(conn){
         })
         this.Socket.on('event', (msg) => {
             let tx = JSON.parse(msg.transaction)
+            console.log(tx)
             if(relay(tx,filter)){
                 let tx_mapped = {}
                 Object.keys(tx).forEach(
@@ -42,7 +43,8 @@ export function EventCatalog(conn){
         var send = true;
         if(filters.length>0){
             filters.forEach((c)=>{
-                if(!tx.includes(c)){
+                console.log('filter ['+c + ']');
+                if(c!='' && !tx.includes(c)){
                     send = false;
                 }            
             });

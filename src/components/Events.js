@@ -63,7 +63,7 @@ class Events extends Component {
   render() {
     const { classes } = this.props;
     const currentPath = this.props.location.pathname;
-    const {startAt, showOnly} = this.state;
+    const {startAt, showOnly} = this.context.events;
     var cards = this.state.data.map((tx)=>{
       return <CardItem key={tx.block} tx={tx}/>
     })
@@ -78,6 +78,7 @@ class Events extends Component {
               <TextField
                 label="Starting Block"
                 id="start"
+                defaultValue={startAt}
                 onChange={this.handleChange('startAt')}
                 className={classNames(classes.margin, classes.textField)}
                 InputProps={{
@@ -87,6 +88,7 @@ class Events extends Component {
               <TextField
                 label="Show Only"
                 id="show"
+                defaultValue={showOnly}
                 onChange={this.handleChange('showOnly')}
                 className={classNames(classes.margin, classes.textField)}
                 InputProps={{
