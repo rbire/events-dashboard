@@ -25,14 +25,14 @@ const theme = createMuiTheme({
 });
 
 var context = {
+  catalog:new EventCatalog('http://192.168.99.100:30598/'),
   system:'Event Test System',
   entity:"Agent",
   recorder:"AGNT002",
   events:{
     ledger:new Ledger('http://192.168.99.100:31481/'),
-    host:'http://192.168.99.100:30598/',
-    block:'3',
-    filter : [],
+    showOnly:'Contract Signed',
+    startAt:'',
     data:[],
     event_counts:[],
     recorder_counts:[],
@@ -41,6 +41,14 @@ var context = {
   handleChange:(state) => {
     context.entity = state.entity;
     context.recorder = state.recorder;
+  },
+  startMonitor(){
+    context.events.data=[];
+    context.events.event_counts=[];
+    context.events.recorder_counts=[];
+    context.catalog.Sync(context.events.startAt,context.events.showOnly.split(" "), (tx, events,recorders) => {
+      context.handleEvent(tx,events,recorders); 
+    });                  
   },
   handleEvent:(tx,events,recorders) => {
     context.events.tx = tx;
@@ -70,10 +78,7 @@ var context = {
 class App extends Component {
   constructor(props) {
     super(props);
-    let catalog = new EventCatalog(context.events.host);
-    catalog.Sync(context.events.block,context.events.filter, (tx, events,recorders) => {
-      context.handleEvent(tx,events,recorders); 
-    });                  
+    context.startMonitor();
   } 
   render() {
     return (
