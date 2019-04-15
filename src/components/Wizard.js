@@ -180,21 +180,18 @@ class Wizard extends Component {
     return 'Next';
   }
 
-  goToDashboard = event => {
-    const queryString = this.props.location.search
-
+  goToPage = (page, queryString) => {
     this.props.history.push({
-      pathname: '/dashboard',
+      pathname: '/' + page,
       search: queryString
     })
   }
-  goToLedger = event => {
-    const queryString = this.props.location.search
 
-    this.props.history.push({
-      pathname: '/ledger',
-      search: 'subject='+this.state.subject
-    })
+  goToDashboard = event => {
+    this.goToPage('dashboard',this.props.location.search);
+  }
+  goToLedger = event => {
+    this.goToPage('ledger','subject='+this.state.subject);
   }
 
   render() {
@@ -202,12 +199,15 @@ class Wizard extends Component {
     const queryString = this.props.location.search
     const parse = queryString ? qs.parse(queryString):{}
     const subject = parse.subject? parse.subject : this.state.subject
-
+    const entity=this.context.entity;
     const steps = getSteps();
     const { activeStep } = this.state;
-    let event_items = EntityEvents[this.context.entity].map((v,i)=>{
-      return <MenuItem value={v}>{v}</MenuItem>
-    })
+    let event_items = '';
+    if(entity!='anonymous'){
+      event_items = EntityEvents[entity].map((v,i)=>{
+        return <MenuItem value={v}>{v}</MenuItem>
+      });
+    }
     let action_items = Events[this.state.eventItem].map((v,i)=>{
       return <MenuItem value={v}>{v}</MenuItem>
     })
@@ -250,7 +250,7 @@ class Wizard extends Component {
                             Entity
                           </Typography>
                           <Typography variant="h5" gutterBottom>
-                            {this.context.entity}
+                            {entity=='anonymous'?this.goToPage('entity',this.props.location.search):entity}
                            </Typography>
                           <Typography style={{textTransform: 'uppercase'}} color='secondary' gutterBottom>
                             Recorder

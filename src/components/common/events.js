@@ -2,12 +2,10 @@ import React, { Component } from 'react'
 import socketIOClient from 'socket.io-client'
 import mappings from './mappings.js'
 export function EventCatalog(conn){
-    this.Events = {}
-    this.Recorders = {}
-    this.Data = [];
     this.Socket = null;
     this.Sync = function(block, filter, cb){
-        this.Counts = {};
+        this.Events = {}
+        this.Recorders = {}
         if(this.Socket){
             this.Socket.disconnect();
         }
@@ -17,7 +15,6 @@ export function EventCatalog(conn){
         })
         this.Socket.on('event', (msg) => {
             let tx = JSON.parse(msg.transaction)
-            console.log(tx)
             if(relay(tx,filter)){
                 let tx_mapped = {}
                 Object.keys(tx).forEach(

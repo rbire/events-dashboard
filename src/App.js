@@ -27,12 +27,12 @@ const theme = createMuiTheme({
 var context = {
   catalog:new EventCatalog('http://192.168.99.100:30598/'),
   system:'Event Test System',
-  entity:"Agent",
-  recorder:"AGNT002",
+  entity:'anonymous',
+  recorder:"Sign In",
   events:{
     ledger:new Ledger('http://192.168.99.100:31481/'),
     showOnly:'1.0',
-    startAt:'Most Recent',
+    startAt:'Last',
     data:[],
     event_counts:[],
     recorder_counts:[],
@@ -41,6 +41,9 @@ var context = {
   handleChange:(state) => {
     context.entity = state.entity;
     context.recorder = state.recorder;
+    context.events.startAt  = 0;
+    context.events.showOnly = state.recorder;
+    setTimeout(context.startMonitor,100);
   },
   startMonitor(){
     context.events.data=[];

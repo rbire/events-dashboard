@@ -106,14 +106,11 @@ class Topbar extends Component {
     if(this.props.currentPath === '/dashboard') {
       return 0
     }
-    if(this.props.currentPath === '/entity') {
+    if(this.props.currentPath === '/events') {
       return 1
     }
-    if(this.props.currentPath === '/events') {
-      return 2
-    }
     if(this.props.currentPath === '/ledger') {
-      return 3
+      return 2
     }
   }
 
@@ -172,7 +169,7 @@ class Topbar extends Component {
                   )}
                   <div className={classes.inline}>
                     <Typography variant="h6" color="inherit" noWrap>
-                      <Link to='/' className={classes.link}>
+                      <Link to='/entity' className={classes.link}>
                         <img width={20} alt="" />
                         <UserContext.Consumer>
                               {({recorder}) => (

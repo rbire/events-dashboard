@@ -26,8 +26,6 @@ import UserContext from './common/UserContext';
 
 const backgroundShape = require('../images/shape.svg');
 
-const logo = require('../images/logo.svg');
-
 const numeral = require('numeral');
 numeral.defaultFormat('0');
 
@@ -104,8 +102,8 @@ const styles = theme => ({
 
 const getSteps = () => {
   return [
-    'User',
-    'Signin'
+    'Recorder',
+    'Confirm'
   ];
 }
 const entities = Object.keys(Entities)
@@ -124,33 +122,27 @@ class Signup extends Component {
 
   }
 
+  componentWillMount(){
+    const entity = this.context.entity;
+    if(entity!='anonymous'){
+      this.setState({
+        entity:this.context.entity,
+        recorder:this.context.recorder
+      });
+    }
+  }
+
   handleNext = () => {
     this.setState(state => ({
       activeStep: state.activeStep + 1,
     }));
-    if(this.state.activeStep === 1) {
-      setTimeout(() => this.props.history.push('/dashboard'), 5000)
+    if(this.state.activeStep === 0) {
+      setTimeout(() => this.props.history.push('/dashboard'), 2000)
     }
-  };
-
-  handleBack = () => {
-    this.setState(state => ({
-      activeStep: state.activeStep - 1,
-    }));
-  };
-
-  handleReset = () => {
-    this.setState({
-      activeStep: 0,
-    });
   };
 
   handleChange = event => {
     this.setState({ [event.target.name]: event.target.value });
-  };
-
-  handleTerms = event => {
-    this.setState({ termsChecked: event.target.checked });
   };
 
   stepActions() {
@@ -182,9 +174,6 @@ class Signup extends Component {
           <Grid container justify="center">
             <Grid spacing={24} alignItems="center" justify="center" container className={classes.grid}>
               <Grid item xs={12}>
-                <div className={classes.logo}>
-                  <img width={100} height={100} src={logo} alt="" />
-                </div>
                 <div className={classes.stepContainer}>
                   <div className={classes.stepGrid}>
                     <Stepper classes={{root: classes.stepper}} activeStep={activeStep} alternativeLabel>
@@ -205,14 +194,11 @@ class Signup extends Component {
                           <Typography variant="subtitle1" style={{fontWeight: 'bold'}} gutterBottom>
                             Select
                           </Typography>
-                          <Typography variant="body1" gutterBottom>
-                            A item to select
-                          </Typography>
-                        </div>
-                        <div>
                           <Typography style={{textTransform: 'uppercase', marginBottom: 20}} color='secondary' gutterBottom>
                             Recording Entity
                           </Typography>
+                        </div>
+                        <div>
                           <FormControl variant="outlined" className={classes.formControl}>
                             <Select
                               value={this.state.entity}
@@ -258,10 +244,10 @@ class Signup extends Component {
                       <div>
                         <div style={{marginBottom: 32}}>
                           <Typography variant="subtitle1" gutterBottom>
-                            Permissions
+                            Confirmation
                           </Typography>
                           <Typography variant="body1" gutterBottom>
-                            We need some permissions to proceed.
+                            All your transactions will be recorded under the following identity:
                           </Typography>
                         </div>
                         <div>
@@ -283,14 +269,7 @@ class Signup extends Component {
                             </ListItem>
                           </List>
                         </div>
-                      </div>
-                    </Paper>
-                    </div>
-                  )}
-                  { activeStep === 2 && (
-                  <div className={classes.bigContainer}>
-                    <Paper className={classes.paper}>
-                      <div style={{display: 'flex', justifyContent: 'center'}}>
+                        <div style={{display: 'flex', justifyContent: 'center'}}>
                         <div style={{width: 380, textAlign: 'center'}}>
                           <div style={{marginBottom: 32}}>
                             <Typography variant="h6" style={{fontWeight: 'bold'}} gutterBottom>
@@ -318,30 +297,12 @@ class Signup extends Component {
                           </div>
                         </div>
                       </div>
+                      </div>
                     </Paper>
                     </div>
                   )}
-                  { activeStep !== 2 && (
+                  { activeStep === 0 && (
                      <div className={classes.buttonBar}>
-                     { activeStep !== 1 ? (
-                       <Button
-                       disabled={activeStep === 0}
-                       onClick={this.handleBack}
-                       className={classes.backButton}
-                       size='large'
-                       >
-                         Back
-                       </Button>
-                     ) : (
-                       <Button
-                       disabled={activeStep === 0}
-                       onClick={this.handleBack}
-                       className={classes.backButton}
-                       size='large'
-                       >
-                         Cancel
-                       </Button>
-                     )}
                      <Button
                        variant="contained"
                        color="primary"
@@ -354,7 +315,6 @@ class Signup extends Component {
                      </Button>
                    </div>
                   )}
-
                 </div>
               </Grid>
             </Grid>
@@ -364,5 +324,5 @@ class Signup extends Component {
     )
   }
 }
-
+Signup.contextType = UserContext;
 export default withRouter(withStyles(styles)(Signup))
