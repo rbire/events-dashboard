@@ -10,6 +10,11 @@ import VerifiedUserIcon from '@material-ui/icons/VerifiedUser';
 import Loading from './common/Loading';
 import Topbar from './Topbar';
 import Ecm from './common/Monitor';
+import UserContext from './common/UserContext';
+import classNames from 'classnames';
+import InputAdornment from '@material-ui/core/InputAdornment';
+import TextField from '@material-ui/core/TextField';
+
 const numeral = require('numeral');
 numeral.defaultFormat('0,000');
 
@@ -105,13 +110,42 @@ const styles = theme => ({
 });
 
 class Dashboard extends Component {
-  state = {
-    loading: false
+  constructor(props) {
+    super(props)
+    this.trigger = null;
+    this.state = {
+        startAt:'',
+        showOnly:'',
+        loading: false
+    }
+  }
+  handleChange = prop => event => {
+    this.context.events[prop] = event.target.value;
+
+    clearTimeout(this.trigger);
+    this.trigger = setTimeout(function() {
+      this.setState({
+        loading:true
+      });
+      this.context.startMonitor();
+    }.bind(this), 3000);
   };
+
+  handleEvent(){
+    this.setState({
+        loading:false
+    });
+  }
+  componentWillMount(){
+    this.context.registerCallback(this.handleEvent.bind(this));
+  }                  
+
   render() {
     const { classes } = this.props;
     const { loading } = this.state;
-    const currentPath = this.props.location.pathname
+    const currentPath = this.props.location.pathname;
+    const {startAt, showOnly} = this.context.events;
+
     return (
       <React.Fragment>
         <CssBaseline />
@@ -119,6 +153,29 @@ class Dashboard extends Component {
         <div className={classes.root}>
           <Grid container justify="center">
             <Grid spacing={24} alignItems="center" justify="center" container className={classes.grid}>
+            <Grid item xs={12}>
+                          <TextField
+                            label="Starting Block"
+                            id="start"
+                            defaultValue={startAt}
+                            onChange={this.handleChange('startAt')}
+                            className={classNames(classes.margin, classes.textField)}
+                            InputProps={{
+                              startAdornment: <InputAdornment position="start">Block#</InputAdornment>,
+                            }}
+                          />
+                          <TextField
+                            label="Show Only"
+                            id="show"
+                            defaultValue={showOnly}
+                            onChange={this.handleChange('showOnly')}
+                            className={classNames(classes.margin, classes.textField)}
+                            InputProps={{
+                              startAdornment: <InputAdornment position="start">Filter</InputAdornment>,
+                            }}
+                          />
+              </Grid>
+
               <Grid container spacing={24} justify="center">
                 <Grid item xs={12} md={12} >
                   <Paper className={classes.paper} style={{position: 'relative'}}>
@@ -137,7 +194,7 @@ class Dashboard extends Component {
                       </div>
                     </div>
                   </Paper>
-              </Grid>
+                </Grid>
               </Grid>
             </Grid>
           </Grid>
@@ -146,4 +203,5 @@ class Dashboard extends Component {
     )
   }
 }
+Dashboard.contextType = UserContext;
 export default withRouter(withStyles(styles)(Dashboard));

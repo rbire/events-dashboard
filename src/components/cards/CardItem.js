@@ -61,7 +61,7 @@ const styles = theme => ({
 class CardItem extends Component {
   goToEvent = event => {
     this.props.history.push({
-      pathname: '/Event?subject=' + event.target.value,
+      pathname: '/event?subject=' + event.target.value,
       search: '#'
     })
   }
@@ -69,7 +69,7 @@ class CardItem extends Component {
   render() {
     const { classes } = this.props;
     const tx = this.props.tx;
-    const eventLink="/Ledger?subject="+tx.transaction.Subject;
+    const eventLink="/ledger?subject="+tx.transaction.Subject;
     return (
       <div className={classes.root}>
         <Paper className={classes.paper}>

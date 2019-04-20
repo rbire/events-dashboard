@@ -5,9 +5,6 @@ import Grid from '@material-ui/core/Grid';
 import CardItem from './cards/CardItem';
 import Topbar from './Topbar';
 import UserContext from './common/UserContext';
-import classNames from 'classnames';
-import InputAdornment from '@material-ui/core/InputAdornment';
-import TextField from '@material-ui/core/TextField';
 
 const backgroundShape = require('../images/shape.svg');
 
@@ -33,20 +30,9 @@ class Events extends Component {
     super(props)
     this.trigger = null;
     this.state = {
-        data:[],
-        startAt:'',
-        showOnly:''
+        data:[]
     }
   }
-
-  handleChange = prop => event => {
-    this.context.events[prop] = event.target.value;
-
-    clearTimeout(this.trigger);
-    this.trigger = setTimeout(function() { 
-      this.context.startMonitor();
-    }.bind(this), 3000);
-  };
 
   handleEvent(){
     this.setState({
@@ -63,7 +49,6 @@ class Events extends Component {
   render() {
     const { classes } = this.props;
     const currentPath = this.props.location.pathname;
-    const {startAt, showOnly} = this.context.events;
     var cards = this.state.data.map((tx)=>{
       return <CardItem key={tx.block} tx={tx}/>
     })
@@ -75,26 +60,6 @@ class Events extends Component {
           <Grid container justify="center"> 
             <Grid spacing={24} alignItems="center" justify="center" container className={classes.grid}>
               <Grid item xs={12}>
-              <TextField
-                label="Starting Block"
-                id="start"
-                defaultValue={startAt}
-                onChange={this.handleChange('startAt')}
-                className={classNames(classes.margin, classes.textField)}
-                InputProps={{
-                  startAdornment: <InputAdornment position="start">Block#</InputAdornment>,
-                }}
-              />
-              <TextField
-                label="Show Only"
-                id="show"
-                defaultValue={showOnly}
-                onChange={this.handleChange('showOnly')}
-                className={classNames(classes.margin, classes.textField)}
-                InputProps={{
-                  startAdornment: <InputAdornment position="start">Filter</InputAdornment>,
-                }}
-              />
                 {cards.reverse()}
               </Grid>
             </Grid>
