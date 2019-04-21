@@ -154,46 +154,38 @@ class Dashboard extends Component {
           <Grid container justify="center">
             <Grid spacing={24} alignItems="center" justify="center" container className={classes.grid}>
             <Grid item xs={12}>
-                          <TextField
-                            label="Starting Block"
-                            id="start"
-                            defaultValue={startAt}
-                            onChange={this.handleChange('startAt')}
-                            className={classNames(classes.margin, classes.textField)}
-                            InputProps={{
-                              startAdornment: <InputAdornment position="start">Block#</InputAdornment>,
-                            }}
-                          />
-                          <TextField
-                            label="Show Only"
-                            id="show"
-                            defaultValue={showOnly}
-                            onChange={this.handleChange('showOnly')}
-                            className={classNames(classes.margin, classes.textField)}
-                            InputProps={{
-                              startAdornment: <InputAdornment position="start">Filter</InputAdornment>,
-                            }}
-                          />
+                  <Typography variant="body2" gutterBottom>
+                      Current Block Height : {this.context.events.blockHeight}
+                  </Typography>
+                  <TextField
+                    label="Synchronize"
+                    id="start"
+                    defaultValue={startAt}
+                    onChange={this.handleChange('startAt')}
+                    className={classNames(classes.margin, classes.textField)}
+                    InputProps={{
+                      startAdornment: <InputAdornment position="start">From#</InputAdornment>,
+                    }}
+                  />
+                  <TextField
+                    label="Filter"
+                    id="show"
+                    defaultValue={showOnly}
+                    onChange={this.handleChange('showOnly')}
+                    className={classNames(classes.margin, classes.textField)}
+                    InputProps={{
+                      startAdornment: <InputAdornment position="start">Keyword</InputAdornment>,
+                    }}
+                  />
               </Grid>
-
               <Grid container spacing={24} justify="center">
                 <Grid item xs={12} md={12} >
-                  <Paper className={classes.paper} style={{position: 'relative'}}>
                     <Loading loading={loading} />
                     <div className={loading ? classes.loadingState : ''}>
-                      <div style={{marginTop: 14, marginBottom: 14}}>
-                        <div className={classes.inlining}>
-                          <Avatar className={classes.loanAvatar}></Avatar>
-                          <Typography className={classes.inlining} variant="subtitle2" gutterBottom>
-                            Events
-                          </Typography>
-                        </div>
-                      </div>
-                      <div >
-                        <Ecm/>
-                      </div>
                     </div>
-                  </Paper>
+                    <Paper className={classes.paper} style={{position: 'relative'}}>
+                        <Ecm/>
+                    </Paper>
                 </Grid>
               </Grid>
             </Grid>

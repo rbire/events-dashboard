@@ -13,7 +13,7 @@ function EventRadarChart(props) {
     }
   });
   	return (
-      <RadarChart outerRadius={200} width={500} height={500} data={data}>
+      <RadarChart outerRadius={125} width={350} height={350} data={data}>
         <PolarGrid />
         <PolarAngleAxis dataKey="name" />
         <PolarRadiusAxis />

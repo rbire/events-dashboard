@@ -1,9 +1,8 @@
 import React from 'react';
 import ResponsiveContainer from 'recharts/lib/component/ResponsiveContainer';
-import BarChart from 'recharts/lib/chart/BarChart';
-import Bar from 'recharts/lib/cartesian/Bar';
-import XAxis from 'recharts/lib/cartesian/XAxis';
-import Tooltip from 'recharts/lib/component/Tooltip';
+import {
+  ComposedChart, Bar, XAxis, YAxis, Tooltip
+} from 'recharts';
 import { withTheme } from '@material-ui/core/styles';
 
 function EventBarChart(props) {
@@ -16,12 +15,13 @@ function EventBarChart(props) {
   });
 
   return (
-    <ResponsiveContainer width="99%" height={225}>
-      <BarChart data={data}>
-        <XAxis dataKey="name"/>
+    <ResponsiveContainer width="100%" height={350}>
+      <ComposedChart data={data} layout="vertical" >
+        <YAxis dataKey="name" type="category"/>
+        <XAxis type="number"/>
         <Tooltip/>
         <Bar dataKey="events" fill="#8884d8"/>        
-      </BarChart>
+      </ComposedChart>
     </ResponsiveContainer>
   );
 }

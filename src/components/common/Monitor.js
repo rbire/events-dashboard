@@ -3,7 +3,9 @@ import EventRadarChart from './RadarChart';
 import EventLineChart from './LineChart';
 import EventBarChart from './BarChart';
 import UserContext from './UserContext';
+import Grid from '@material-ui/core/Grid';
 import withStyles from '@material-ui/core/styles/withStyles';
+
 const styles = theme => ({
   paper: {
     padding: theme.spacing.unit * 3,
@@ -82,21 +84,17 @@ class Ecm extends Component {
   render() {
     const { classes } = this.props;    
     var counts = this.state.counts;
-    return (
-      <div className={classes.root}>
+    return (      
+      <Grid container spacing={24}>
+      <Grid item xs={12} md={7} >
           <EventLineChart counts={counts.Dates}/>
-          <div className={classes.itemContainer}>
-              <div className={classes.baseline}>
-                <div className={classes.inline}>
-                    <EventRadarChart counts={counts.Events} />       
-                </div>
-                <div className={classes.inline}>
-                    <EventRadarChart counts={counts.Entities} />       
-                </div>
-              </div>
-            </div>
-            <EventBarChart counts={counts.Recorders}/>
-      </div>
+          <EventBarChart counts={counts.Recorders}/>
+      </Grid>
+      <Grid item xs={12} md={5} >
+          <EventRadarChart counts={counts.Events} />       
+          <EventRadarChart counts={counts.Entities} />       
+      </Grid>
+      </Grid>
     )
   }
 }

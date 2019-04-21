@@ -16,7 +16,7 @@ function EventLineChart(props) {
   });
 
   return (
-    <ResponsiveContainer width="99%" height={225}>
+    <ResponsiveContainer width="99%" height={350}>
       <LineChart data={data}>
         <XAxis dataKey="name"/>
         <Tooltip/>
