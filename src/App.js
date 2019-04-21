@@ -32,11 +32,15 @@ var context = {
   events:{
     ledger:new Ledger('http://192.168.99.100:31481/'),
     showOnly:'1.0',
-    startAt:'Last',
+    startAt:'0',
+    counts:{        
+      Events:{},
+      Recorders:{},
+      Entities:{},
+      Dates:{}
+    },
     data:[],
-    event_counts:[],
-    recorder_counts:[],
-    callbacks : []
+    callbacks:[]
   },
   handleChange:(state) => {
     context.entity = state.entity;
@@ -53,21 +57,10 @@ var context = {
       context.handleEvent(tx,events,recorders); 
     });                  
   },
-  handleEvent:(tx,events,recorders) => {
+  handleEvent:(tx,counts) => {
     context.events.tx = tx;
     context.events.data.push(tx);
-    context.events.event_counts = Object.keys(events).map((key, i) => {
-      return {
-        name: key,
-        'Event': events[key]
-      }
-    });
-    context.events.recorder_counts = Object.keys(recorders).map((key, i) => {
-      return {
-        name: key,
-        'Event': recorders[key]
-      }
-    });
+    context.events.counts = counts;
     context.events.callbacks.forEach(cb=>{
       cb(tx)
     })
@@ -76,7 +69,6 @@ var context = {
     context.events.callbacks.push(cb);
   }
 }
-
 
 class App extends Component {
   constructor(props) {

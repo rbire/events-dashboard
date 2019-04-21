@@ -6,17 +6,24 @@ import XAxis from 'recharts/lib/cartesian/XAxis';
 import Tooltip from 'recharts/lib/component/Tooltip';
 import { withTheme } from '@material-ui/core/styles';
 
-function SimpleLineChart(props) {
-  const { theme, data } = props;
+function EventBarChart(props) {
+  const { theme, counts } = props;
+  let data = Object.keys(counts).map((key) => {
+    return {
+      name: key,
+      events: counts[key]
+    }
+  });
+
   return (
     <ResponsiveContainer width="99%" height={225}>
       <BarChart data={data}>
         <XAxis dataKey="name"/>
         <Tooltip/>
-        <Bar dataKey="Event" stackId="a" fill={theme.palette.primary.main} />
+        <Bar dataKey="events" fill="#8884d8"/>        
       </BarChart>
     </ResponsiveContainer>
   );
 }
 
-export default withTheme()(SimpleLineChart);
+export default withTheme()(EventBarChart);

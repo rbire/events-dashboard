@@ -4,8 +4,12 @@ import mappings from './mappings.js'
 export function EventCatalog(conn){
     this.Socket = null;
     this.Sync = function(block, filter, cb){
-        this.Events = {}
-        this.Recorders = {}
+        this.Counts ={
+            Events:{},
+            Recorders:{},
+            Entities:{},
+            Dates:{}
+        }
         if(this.Socket){
             this.Socket.disconnect();
         }
@@ -23,15 +27,23 @@ export function EventCatalog(conn){
                         let key = (mappings[col]!='undefined' ? mappings[col]:col);
                         let val = tx[col];
                         tx_mapped[key] = val;
-                        if(key=='Event'){
-                            this.Events[val] = this.Events[val]===undefined ? 1 : this.Events[val]+1                
+                        if(key==='Event'){
+                            this.Counts.Events[val] = this.Counts.Events[val]===undefined ? 1 : this.Counts.Events[val]+1                
                         }
-                        if(key=='Recorder'){
-                            this.Recorders[val] = this.Recorders[val]===undefined ? 1 : this.Recorders[val]+1                
+                        if(key==='Recorder'){
+                            this.Counts.Recorders[val] = this.Counts.Recorders[val]===undefined ? 1 : this.Counts.Recorders[val]+1                
+                        }
+                        if(key==='Entity'){
+                            this.Counts.Entities[val] = this.Counts.Entities[val]===undefined ? 1 : this.Counts.Entities[val]+1                
+                        }
+                        if(key==='DateTime'){
+                            let date = new Date(val);
+                            var k = date.getMonth()+'/'+date.getDate()+' '+date.getHours();
+                            this.Counts.Dates[k] = this.Counts.Dates[k]===undefined ? 1 : this.Counts.Dates[k]+1  
                         }
                     })
                 msg.transaction = tx_mapped;
-                cb(msg,this.Events, this.Recorders);    
+                cb(msg,this.Counts);    
             }
         });    
     }
@@ -40,7 +52,6 @@ export function EventCatalog(conn){
         var send = true;
         if(filters.length>0){
             filters.forEach((c)=>{
-                console.log('filter ['+c + ']');
                 if(c!='' && !tx.includes(c)){
                     send = false;
                 }            
