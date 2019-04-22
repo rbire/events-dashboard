@@ -14,6 +14,9 @@ import UserContext from './common/UserContext';
 import classNames from 'classnames';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import TextField from '@material-ui/core/TextField';
+import {Events, Entities, EntityEvents} from './common/Lookups';
+import Button from '@material-ui/core/Button';
+import Card from './cards/Card';
 
 const numeral = require('numeral');
 numeral.defaultFormat('0,000');
@@ -106,7 +109,12 @@ const styles = theme => ({
     textAlign: 'center',
     marginTop: theme.spacing.unit * 4,
     marginBottom: theme.spacing.unit * 4
-  }
+  },
+  actionButtom: {
+    textTransform: 'uppercase',
+    margin: theme.spacing.unit,
+    width: 152
+  },
 });
 
 class Dashboard extends Component {
@@ -118,7 +126,40 @@ class Dashboard extends Component {
         showOnly:'',
         loading: false
     }
+    this.randomPost = this.randomPost.bind(this);
+    this.handleConfirmation = this.handleConfirmation.bind(this);
+
   }
+  
+  handleConfirmation(id){
+      console.log(id);
+  }
+  
+  randomPost(){
+    var n = Math.ceil(Math.random()*10);
+    var subject = 'US-'+Math.floor(Math.random()*40000)+'-' + Math.floor(Math.random()*50000) + '-' + Math.floor(Math.random()*200000) + '-R-N';
+    var system = 'Event Test System';
+    var entity = Object.keys(EntityEvents)[n%Object.keys(EntityEvents).length];
+    var event = EntityEvents[entity][n%EntityEvents[entity].length];
+    var state = Events[event][n%Events[event].length];
+    var recorder = Entities[entity][n%Entities[entity].length];
+    var date = new Date();
+    date.setHours(n);
+    var tx = {
+      'arg_0':subject,
+      'arg_1':system,
+      'arg_2':'Property',
+      'arg_3':entity,
+      'arg_4':event,
+      'arg_5':state,
+      'arg_6':date,
+      'arg_7':'TestNet',
+      'arg_8':'1.0',
+      'arg_9':recorder
+      }
+    this.context.events.ledger.recordEvents(tx, this.handleConfirmation);    
+  }
+
   handleChange = prop => event => {
     this.context.events[prop] = event.target.value;
 
@@ -153,7 +194,7 @@ class Dashboard extends Component {
         <div className={classes.root}>
           <Grid container justify="center">
             <Grid spacing={24} alignItems="center" justify="center" container className={classes.grid}>
-            <Grid item xs={12}>
+            <Grid item xs={12} md={8}>
                   <Typography variant="body2" gutterBottom>
                       Current Block Height : {this.context.events.blockHeight}
                   </Typography>
@@ -177,6 +218,12 @@ class Dashboard extends Component {
                       startAdornment: <InputAdornment position="start">Keyword</InputAdornment>,
                     }}
                   />
+                  <Button onClick={this.randomPost} color='primary' variant="contained" className={classes.actionButtom}>
+                    Random Post
+                  </Button>
+              </Grid>
+              <Grid item xs={12} md={4}>
+                  <Card tx={this.context.events.tx} />
               </Grid>
               <Grid container spacing={24} justify="center">
                 <Grid item xs={12} md={12} >

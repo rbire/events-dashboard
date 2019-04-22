@@ -41,7 +41,12 @@ var context = {
       Dates:{}
     },
     data:[],
-    callbacks:[]
+    callbacks:[],
+    tx:{
+      transaction:{
+        
+      }
+    }
   },
   handleChange:(state) => {
     context.entity = state.entity;
