@@ -87,11 +87,15 @@ class Ecm extends Component {
       <Grid container spacing={24}>
       <Grid item xs={12} md={7} >
           <EventLineChart counts={Dates}/>
-          <EventBarChart counts={Recorders}/>
       </Grid>
       <Grid item xs={12} md={5} >
-          <EventRadarChart counts={Events} />       
-          <EventRadarChart counts={Entities} />       
+          <EventRadarChart counts={Entities}/>
+      </Grid>
+      <Grid item xs={12} md={12} >
+          <EventBarChart counts={Events} layout="horizontal" height={150}/>       
+      </Grid>
+      <Grid item xs={12} md={12} >
+          <EventBarChart counts={Recorders} layout="vertical" height={500}/>
       </Grid>
       </Grid>
     )

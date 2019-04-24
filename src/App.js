@@ -31,7 +31,6 @@ var context = {
   recorder:"SIGN IN",
   events:{
     ledger:new Ledger('http://192.168.99.100:31481/'),
-    blockHeight:0,
     showOnly:'1.0',
     startAt:'',
     counts:{        
@@ -65,7 +64,6 @@ var context = {
     });                  
   },
   handleEvent:(tx) => {
-    context.events.blockHeight = tx.block;
     context.events.tx = tx;
     context.events.data.push(tx);
     context.events.callbackTx.forEach(cb=>{

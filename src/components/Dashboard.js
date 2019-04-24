@@ -170,7 +170,7 @@ class Dashboard extends Component {
         loading:false
       });
       this.context.startMonitor();
-    }.bind(this), 3000);
+    }.bind(this), 2000);
   };
 
   render() {
@@ -186,10 +186,7 @@ class Dashboard extends Component {
         <div className={classes.root}>
           <Grid container justify="center">
             <Grid spacing={24} alignItems="center" justify="center" container className={classes.grid}>
-            <Grid item xs={12} md={8}>
-                  <Typography variant="body2" gutterBottom>
-                      Current Block Height : {this.context.events.blockHeight}
-                  </Typography>
+            <Grid item xs={12} md={6}>
                   <TextField
                     label="Synchronize"
                     id="start"
@@ -210,14 +207,16 @@ class Dashboard extends Component {
                       startAdornment: <InputAdornment position="start">Keyword</InputAdornment>,
                     }}
                   />
-                  <Button onClick={this.randomPost} color='primary' variant="contained" className={classes.actionButtom}>
-                    Random Post
-                  </Button>
               </Grid>
               <Grid item xs={12} md={4}>
                   <Grow in={true}>
                     <Card  />
                   </Grow>
+              </Grid>
+              <Grid item xs={12} md={2}>
+                  <Button onClick={this.randomPost} color='primary' variant="contained" className={classes.actionButtom}>
+                    Click To Post A Random Event
+                  </Button>
               </Grid>
               <Grid container spacing={24} justify="center">
                 <Grid item xs={12} md={12} >

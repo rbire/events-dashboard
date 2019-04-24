@@ -87,16 +87,11 @@ class Card extends Component {
           <div className={classes.itemContainer}>
             <div className={classes.baseline}>
               <div className={classes.inline}>
-                <Typography variant="body2" gutterBottom>
                 <Link component={RouterLink} to={eventLink}>
-                  {tx.transaction.Subject}
-                </Link>
-                </Typography>
+                    {tx.transaction.Subject}
+                  </Link>
                 <Typography variant="body2" gutterBottom>
-                  {tx.transaction.Event} {tx.transaction.Action} recorded by {tx.transaction.Recorder}
-                </Typography>
-                <Typography variant="body2" gutterBottom>
-                Block#{tx.block}
+                  Block#{tx.block} {tx.transaction.Event} {tx.transaction.Action} <br/>posted by {tx.transaction.Recorder}
                 </Typography>
               </div>
             </div>
