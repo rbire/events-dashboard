@@ -43,7 +43,7 @@ class Events extends Component {
     this.setState({
       data:this.context.events.data
     });
-    this.context.registerCallback(this.handleEvent.bind(this));
+    //this.context.registerCallback(this.handleEvent.bind(this));
   }                  
 
   render() {

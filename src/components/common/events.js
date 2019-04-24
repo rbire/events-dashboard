@@ -2,13 +2,14 @@ import React, { Component } from 'react'
 import socketIOClient from 'socket.io-client'
 import mappings from './mappings.js'
 export function EventCatalog(conn){
+    this.trigger=null;
     this.Socket = null;
-    this.Sync = function(block, filter, cb){
+    this.Sync = function(block, filter, cbTx,cbCount){
         this.Counts ={
-            Events:{},
-            Recorders:{},
-            Entities:{},
-            Dates:{}
+            Events:[],
+            Recorders:[],
+            Entities:[],
+            Dates:[]
         }
         if(this.Socket){
             this.Socket.disconnect();
@@ -28,25 +29,51 @@ export function EventCatalog(conn){
                         let val = tx[col];
                         tx_mapped[key] = val;
                         if(key==='Event'){
-                            this.Counts.Events[val] = this.Counts.Events[val]===undefined ? 1 : this.Counts.Events[val]+1                
+                            update(val,this.Counts.Events)               
                         }
                         if(key==='Recorder'){
-                            this.Counts.Recorders[val] = this.Counts.Recorders[val]===undefined ? 1 : this.Counts.Recorders[val]+1                
+                            update(val,this.Counts.Recorders)            
                         }
                         if(key==='Entity'){
-                            this.Counts.Entities[val] = this.Counts.Entities[val]===undefined ? 1 : this.Counts.Entities[val]+1                
+                            update(val,this.Counts.Entities);
                         }
                         if(key==='DateTime'){
                             let date = new Date(val);
                             var k = date.getMonth()+'/'+date.getDate()+' '+date.getHours();
-                            this.Counts.Dates[k] = this.Counts.Dates[k]===undefined ? 1 : this.Counts.Dates[k]+1  
+                            update(k,this.Counts.Dates);
                         }
                     })
                 msg.transaction = tx_mapped;
-                cb(msg,this.Counts);    
+                cbTx(msg); 
+                clearTimeout(this.trigger);
+                this.trigger = setTimeout(function(){
+                    cbCount(Object.assign({}, this.Counts)); 
+                }.bind(this),10);           
             }
         });    
     }
+
+    function update(key, counts){
+        let pos = find(key,counts);
+        if(pos!=-1){
+            counts[pos].events+=1;
+        }else{
+            counts.push({
+                name:key, events:1
+            })
+        }
+    }
+
+    function find(name, counts){
+        for(var i=0;i<counts.length;i++)
+        {
+            if(counts[i].name==name){
+                return i;
+            }
+        }
+        return -1;
+    }
+
     function relay(t,filters){
         var tx = Object.values(t);
         var send = true;

@@ -6,14 +6,8 @@ import { withTheme } from '@material-ui/core/styles';
 
 function EventRadarChart(props) {
   const { counts } = props;
-  let data = Object.keys(counts).map((key) => {
-    return {
-      name: key,
-      events: counts[key]
-    }
-  });
   	return (
-      <RadarChart outerRadius={125} width={350} height={350} data={data}>
+      <RadarChart outerRadius={125} width={350} height={350} data={[...counts]}>
         <PolarGrid />
         <PolarAngleAxis dataKey="name" />
         <PolarRadiusAxis />

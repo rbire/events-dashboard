@@ -4,6 +4,7 @@ import Typography from '@material-ui/core/Typography';
 import Paper from '@material-ui/core/Paper';
 import { Link as RouterLink } from 'react-router-dom'
 import Link from '@material-ui/core/Link';
+import UserContext from '../common/UserContext';
 
 const styles = theme => ({
   itemContainer: {
@@ -54,16 +55,32 @@ const styles = theme => ({
 })
 
 class Card extends Component {
+  constructor(props){
+    super(props);
+    this.state = {tx:{transaction:{}}}
+  }
+
+  handleEvent(data){
+    this.setState(
+      {tx:data}
+    )
+  }
+
+  componentWillMount(){
+    this.context.registerTxCallback(this.handleEvent.bind(this));
+  }                  
+
+
   goToEvent = event => {
     this.props.history.push({
       pathname: '/event?subject=' + event.target.value,
       search: '#'
     })
   }
-
+  
   render() {
     const { classes } = this.props;
-    const tx = this.props.tx;
+    const {tx} = this.context.events;
     const eventLink="/ledger?subject="+tx.transaction.Subject;
     return (
       <div className={classes.root}>
@@ -88,4 +105,5 @@ class Card extends Component {
     )
   }
 }
+Card.contextType = UserContext;
 export default withStyles(styles)(Card);

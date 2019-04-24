@@ -35,16 +35,17 @@ var context = {
     showOnly:'1.0',
     startAt:'',
     counts:{        
-      Events:{},
-      Recorders:{},
-      Entities:{},
-      Dates:{}
+      Events:[],
+      Recorders:[],
+      Entities:[],
+      Dates:[]
     },
     data:[],
-    callbacks:[],
+    callbackTx:[],
+    callbackCount:[],
     tx:{
       transaction:{
-        
+
       }
     }
   },
@@ -57,23 +58,33 @@ var context = {
   },
   startMonitor(){
     context.events.data=[];
-    context.events.event_counts=[];
-    context.events.recorder_counts=[];
-    context.catalog.Sync(context.events.startAt,context.events.showOnly.split(" "), (tx, events,recorders) => {
-      context.handleEvent(tx,events,recorders); 
+    context.catalog.Sync(context.events.startAt,context.events.showOnly.split(" "), (tx) => {
+      context.handleEvent(tx); 
+    },(counts) => {
+      context.handleCounts(counts); 
     });                  
   },
-  handleEvent:(tx,counts) => {
+  handleEvent:(tx) => {
     context.events.blockHeight = tx.block;
     context.events.tx = tx;
     context.events.data.push(tx);
-    context.events.counts = counts;
-    context.events.callbacks.forEach(cb=>{
+    context.events.callbackTx.forEach(cb=>{
       cb(tx)
     })
   },
-  registerCallback:(cb)=>{
-    context.events.callbacks.push(cb);
+  handleCounts:(counts) => {
+    context.events.counts = counts;
+    context.events.callbackCount.forEach(cb=>{
+      cb(counts)
+    })
+  },
+  registerTxCallback:(cb)=>{
+    context.events.callbackTx.push(cb);
+    cb(context.events.tx)
+  },
+  registerCountCallback:(cb)=>{
+    context.events.callbackCount.push(cb);
+    cb(context.events.counts);
   }
 }
 

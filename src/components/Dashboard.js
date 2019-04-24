@@ -17,6 +17,7 @@ import TextField from '@material-ui/core/TextField';
 import {Events, Entities, EntityEvents} from './common/Lookups';
 import Button from '@material-ui/core/Button';
 import Card from './cards/Card';
+import Grow from '@material-ui/core/Grow';
 
 const numeral = require('numeral');
 numeral.defaultFormat('0,000');
@@ -166,20 +167,11 @@ class Dashboard extends Component {
     clearTimeout(this.trigger);
     this.trigger = setTimeout(function() {
       this.setState({
-        loading:true
+        loading:false
       });
       this.context.startMonitor();
     }.bind(this), 3000);
   };
-
-  handleEvent(){
-    this.setState({
-        loading:false
-    });
-  }
-  componentWillMount(){
-    this.context.registerCallback(this.handleEvent.bind(this));
-  }                  
 
   render() {
     const { classes } = this.props;
@@ -223,7 +215,9 @@ class Dashboard extends Component {
                   </Button>
               </Grid>
               <Grid item xs={12} md={4}>
-                  <Card tx={this.context.events.tx} />
+                  <Grow in={true}>
+                    <Card  />
+                  </Grow>
               </Grid>
               <Grid container spacing={24} justify="center">
                 <Grid item xs={12} md={12} >

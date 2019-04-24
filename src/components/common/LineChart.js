@@ -8,16 +8,9 @@ import { withTheme } from '@material-ui/core/styles';
 
 function EventLineChart(props) {
   const { theme, counts } = props;
-  let data = Object.keys(counts).map((key) => {
-    return {
-      name: key,
-      events: counts[key]
-    }
-  });
-
   return (
     <ResponsiveContainer width="99%" height={350}>
-      <LineChart data={data}>
+      <LineChart data={[...counts]}>
         <XAxis dataKey="name"/>
         <Tooltip/>
         <Line type="monotone" dataKey="events" stroke="#8884d8" activeDot={{r: 8}}/>        
@@ -25,5 +18,4 @@ function EventLineChart(props) {
     </ResponsiveContainer>
   );
 }
-
 export default withTheme()(EventLineChart);

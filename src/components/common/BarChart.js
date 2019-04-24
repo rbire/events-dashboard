@@ -7,16 +7,9 @@ import { withTheme } from '@material-ui/core/styles';
 
 function EventBarChart(props) {
   const { theme, counts } = props;
-  let data = Object.keys(counts).map((key) => {
-    return {
-      name: key,
-      events: counts[key]
-    }
-  });
-
   return (
     <ResponsiveContainer width="100%" height={350}>
-      <ComposedChart data={data} layout="vertical" >
+      <ComposedChart data={[...counts]} layout="vertical" >
         <YAxis dataKey="name" type="category"/>
         <XAxis type="number"/>
         <Tooltip/>

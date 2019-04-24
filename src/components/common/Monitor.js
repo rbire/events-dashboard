@@ -63,36 +63,35 @@ class Ecm extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      counts:{
+        Events:[],
+        Recorders:[],
+        Entities:[],
+        Dates:[]
       }
-    }
   }
    
-  handleEvent(){
+  handleEvent(data){
     this.setState({
-      counts:this.context.events.counts
+      ...data
     })
   }
 
   componentWillMount(){
-    this.setState({
-      counts:this.context.events.counts
-    })
-    this.context.registerCallback(this.handleEvent.bind(this));
+    this.context.registerCountCallback(this.handleEvent.bind(this));
   }
 
   render() {
     const { classes } = this.props;    
-    var counts = this.state.counts;
+    var {Dates,Recorders,Events,Entities} = this.state;
     return (      
       <Grid container spacing={24}>
       <Grid item xs={12} md={7} >
-          <EventLineChart counts={counts.Dates}/>
-          <EventBarChart counts={counts.Recorders}/>
+          <EventLineChart counts={Dates}/>
+          <EventBarChart counts={Recorders}/>
       </Grid>
       <Grid item xs={12} md={5} >
-          <EventRadarChart counts={counts.Events} />       
-          <EventRadarChart counts={counts.Entities} />       
+          <EventRadarChart counts={Events} />       
+          <EventRadarChart counts={Entities} />       
       </Grid>
       </Grid>
     )
