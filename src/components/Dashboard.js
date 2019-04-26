@@ -17,7 +17,6 @@ import TextField from '@material-ui/core/TextField';
 import {Events, Entities, EntityEvents} from './common/Lookups';
 import Button from '@material-ui/core/Button';
 import Card from './cards/Card';
-import Grow from '@material-ui/core/Grow';
 
 const numeral = require('numeral');
 numeral.defaultFormat('0,000');
@@ -186,32 +185,32 @@ class Dashboard extends Component {
         <div className={classes.root}>
           <Grid container justify="center">
             <Grid spacing={24} alignItems="center" justify="center" container className={classes.grid}>
-            <Grid item xs={12} md={6}>
+            <Grid item xs={12} md={3}>
                   <TextField
-                    label="Synchronize"
+                    label="Sync from e.g. 0, 10 or 100..."
                     id="start"
-                    defaultValue={startAt}
+                    defaultValue={startAt} fullWidth={true}
                     onChange={this.handleChange('startAt')}
                     className={classNames(classes.margin, classes.textField)}
                     InputProps={{
-                      startAdornment: <InputAdornment position="start">From#</InputAdornment>,
+                      startAdornment: <InputAdornment position="start">Block#</InputAdornment>,
                     }}
                   />
+              </Grid>
+              <Grid item xs={12} md={3}>
                   <TextField
-                    label="Filter"
+                    label="e.g. Price, Offer, Contract etc."
                     id="show"
-                    defaultValue={showOnly}
+                    defaultValue={showOnly} fullWidth={true}
                     onChange={this.handleChange('showOnly')}
                     className={classNames(classes.margin, classes.textField)}
                     InputProps={{
-                      startAdornment: <InputAdornment position="start">Keyword</InputAdornment>,
+                      startAdornment: <InputAdornment position="start">Filter</InputAdornment>,
                     }}
                   />
               </Grid>
               <Grid item xs={12} md={4}>
-                  <Grow in={true}>
                     <Card  />
-                  </Grow>
               </Grid>
               <Grid item xs={12} md={2}>
                   <Button onClick={this.randomPost} color='primary' variant="contained" className={classes.actionButtom}>

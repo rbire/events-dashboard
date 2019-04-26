@@ -25,13 +25,13 @@ const theme = createMuiTheme({
 });
 
 var context = {
-  catalog:new EventCatalog('http://192.168.99.100:30598/'),
+  catalog:new EventCatalog('http://monitor.rbi.events/'),
   system:'Event Test System',
   entity:'anonymous',
   recorder:"SIGN IN",
   events:{
-    ledger:new Ledger('http://192.168.99.100:31481/'),
-    showOnly:'1.0',
+    ledger:new Ledger('http://ledger.rbi.events/'),
+    showOnly:'',
     startAt:'',
     counts:{        
       Events:[],

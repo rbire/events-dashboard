@@ -1,13 +1,13 @@
 import React, { Component } from 'react';
 import withStyles from '@material-ui/core/styles/withStyles';
 import Typography from '@material-ui/core/Typography';
-import Paper from '@material-ui/core/Paper';
+import Divider from '@material-ui/core/Divider';
 import { Link as RouterLink } from 'react-router-dom'
 import Link from '@material-ui/core/Link';
 
 const styles = theme => ({
-  paper: {
-    padding: theme.spacing.unit * 3,
+  root: {
+    padding: theme.spacing.unit * 1,
     textAlign: 'left',
     color: theme.palette.text.secondary
   },
@@ -22,6 +22,7 @@ const styles = theme => ({
     }
   },
   baseline: {
+    width:'70%',
     alignSelf: 'baseline',
     marginLeft: theme.spacing.unit * 4,
     [theme.breakpoints.down('sm')]: {
@@ -43,7 +44,7 @@ const styles = theme => ({
     }
   },
   inlineRight: {
-    width: '30%',
+    width: '20%',
     textAlign: 'right',
     marginLeft: 50,
     alignSelf: 'flex-end',
@@ -72,47 +73,29 @@ class CardItem extends Component {
     const eventLink="/ledger?subject="+tx.transaction.Subject;
     return (
       <div className={classes.root}>
-        <Paper className={classes.paper}>
           <div className={classes.itemContainer}>
             <div className={classes.baseline}>
               <div className={classes.inline}>
-                <Typography variant="h6" gutterBottom>
-                  {tx.block}
+                <Typography gutterBottom>
+                  #{tx.block}
                 </Typography>
               </div>
               <div className={classes.inline}>
-                <Typography style={{ textTransform: 'uppercase' }} color='secondary' gutterBottom>
-                  Event
+                <Typography style={{ textTransform: 'uppercase' }}  gutterBottom>
+                {tx.transaction.Event} {tx.transaction.Action}
                 </Typography>
-                <Typography variant="h6" gutterBottom>
-                  {tx.transaction.Event}
-                </Typography>
-                <Typography variant="h6" gutterBottom>
-                  {tx.transaction.Action}
-                </Typography>
-                <Typography variant="body2" gutterBottom>
-                  {tx.transaction.DateTime}
-                </Typography>
+                posted by {tx.transaction.Entity} {tx.transaction.Recorder}
               </div>
             </div>
             <div className={classes.inlineRight}>
+               <Link component={RouterLink} to={eventLink}>
               <Typography style={{ textTransform: 'uppercase' }} color='secondary' gutterBottom>
-                Subject
-              </Typography>
-              <Typography variant="h6" gutterBottom>
-              <Link component={RouterLink} to={eventLink}>
-                {tx.transaction.Subject}
-              </Link>
-              </Typography>
-              <Typography style={{ textTransform: 'uppercase' }} color='secondary' gutterBottom>
-                Recorder
-              </Typography>
-              <Typography variant="h6" gutterBottom>
-                {tx.transaction.Recorder}
-              </Typography>
+              {tx.transaction.Subject}             
+            </Typography>
+            </Link>
             </div>
           </div>
-        </Paper>
+          <Divider />
       </div>
     )
   }

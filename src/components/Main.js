@@ -86,7 +86,7 @@ const styles = theme => ({
     position: 'absolute',
     top: '40%',
     left: '40%'
-  }
+  },  
 });
 
 class Main extends Component {
@@ -114,6 +114,19 @@ class Main extends Component {
     this.setState({getStartedDialog: false});
   }
 
+  goToPage = (page, queryString) => {
+    this.props.history.push({
+      pathname: '/' + page,
+      search: queryString
+    })
+  }
+  goToDashboard = event => {
+    this.goToPage('dashboard');
+  }
+  goToLedger = event => {
+    this.goToPage('ledger','subject=US-34712-49927-100632-R-N');
+  }  
+
   render() {
     const { classes } = this.props;
     return (
@@ -127,16 +140,11 @@ class Main extends Component {
                 <Paper className={classes.paper}>
                   <div className={classes.box}>
                     <Typography style={{textTransform: 'uppercase'}} color='secondary' gutterBottom>
-                      First title
+                      The Standard
                     </Typography>
                     <Typography variant="body2" gutterBottom>
-                      A first title style <br/> with two lines
+                        Submitted to RESO Distributed Ledger Workgroup by the Real Estate Blockchain Initiative
                     </Typography>
-                  </div>
-                  <div style={{display: 'flex', justifyContent: 'flex-end'}}>
-                    <Button color='primary' variant="contained" className={classes.actionButtom}>
-                      Learn more
-                    </Button>
                   </div>
                 </Paper>
               </Grid>
@@ -144,16 +152,11 @@ class Main extends Component {
                 <Paper className={classes.paper}>
                   <div className={classes.box}>
                     <Typography style={{textTransform: 'uppercase'}} color='secondary' gutterBottom>
-                      Another box
+                     The Model
                     </Typography>
                     <Typography variant="body1" gutterBottom>
-                      A default box
+                    An application communication standard, independent of the underlying systems, ideal for integrating traditional systems with distributed ledgers in a (B2B) arrangement
                     </Typography>
-                  </div>
-                  <div style={{display: 'flex', justifyContent: 'flex-end'}}>
-                    <Button color='primary' variant="contained" className={classes.actionButtom}>
-                      Learn more
-                    </Button>
                   </div>
                 </Paper>
               </Grid>
@@ -161,19 +164,11 @@ class Main extends Component {
                 <Paper className={classes.paper}>
                   <div className={classes.box}>
                     <Typography style={{textTransform: 'uppercase'}} color='secondary' gutterBottom>
-                      A box with a carousel
+                      Usage
                     </Typography>
                     <Typography variant="body1" gutterBottom>
-                      If you click in Getting Started, you will see a nice carousel
+                    A communications format, independent on systems that create or consume events.
                     </Typography>
-                  </div>
-                  <div className={classes.alignRight}>
-                    <Button onClick={this.openDialog}  variant="outlined" className={classes.actionButtom}>
-                      Learn more
-                    </Button>
-                    <Button onClick={this.openGetStartedDialog} color='primary' variant="contained" className={classes.actionButtom}>
-                      Dashboard
-                    </Button>
                   </div>
                 </Paper>
               </Grid>
@@ -181,17 +176,24 @@ class Main extends Component {
                   <Grid item xs={12}>
                     <Paper className={classes.paper}>
                       <div>
-                        <div className={classes.box}>
+                        <div>
                           <Typography color='secondary' gutterBottom>
-                            Recent Transaction
+                            Events
                           </Typography>
                           <Typography variant="body1" gutterBottom>
+                          Events are created by Event Producers and be either traditional systems or distributed ledgers. After the event is created, it is formatted into the RESO Event Model format and transmitted to other applications. Applications that consumer RESO Event Model formatted events are called Event Consumers. An Event Consumer can be a web application, mobile app, traditional system, or a distributed ledger.
                           </Typography>
                         </div>
                         <div className={classes.alignRight}>
-                          <Button color='primary' variant="contained" className={classes.actionButtom}>
-                            Ledger
-                          </Button>
+                            <Button onClick={this.openGetStartedDialog}  variant="outlined" className={classes.actionButtom}>
+                              Learn more
+                            </Button>
+                            <Button onClick={this.goToDashboard} color='primary' variant="contained" className={classes.actionButtom}>
+                              Dashboard
+                            </Button>
+                            <Button color='primary' variant="contained" className={classes.actionButtom} onClick={this.goToLedger}>
+                              Ledger
+                            </Button>
                         </div>
                       </div>
                     </Paper>

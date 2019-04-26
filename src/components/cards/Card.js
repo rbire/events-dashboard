@@ -5,6 +5,7 @@ import Paper from '@material-ui/core/Paper';
 import { Link as RouterLink } from 'react-router-dom'
 import Link from '@material-ui/core/Link';
 import UserContext from '../common/UserContext';
+import Zoom from '@material-ui/core/Zoom';
 
 const styles = theme => ({
   itemContainer: {
@@ -57,13 +58,24 @@ const styles = theme => ({
 class Card extends Component {
   constructor(props){
     super(props);
-    this.state = {tx:{transaction:{}}}
+    this.state = {
+      loaded:false,
+      tx:{transaction:{}}
+    }
   }
 
   handleEvent(data){
-    this.setState(
-      {tx:data}
-    )
+    this.setState({
+      loaded:false
+    })
+    setTimeout(function() {
+      this.setState(
+        {
+          tx:data,
+          loaded:true
+        }
+      )
+    }.bind(this));
   }
 
   componentWillMount(){
@@ -83,6 +95,7 @@ class Card extends Component {
     const {tx} = this.context.events;
     const eventLink="/ledger?subject="+tx.transaction.Subject;
     return (
+      <Zoom in={this.state.loaded} style={{ transitionDelay: '200ms' }}>
       <div className={classes.root}>
           <div className={classes.itemContainer}>
             <div className={classes.baseline}>
@@ -97,6 +110,7 @@ class Card extends Component {
             </div>
           </div>
       </div>
+      </Zoom>
     )
   }
 }

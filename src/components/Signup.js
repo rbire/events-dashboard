@@ -137,7 +137,7 @@ class Signup extends Component {
       activeStep: state.activeStep + 1,
     }));
     if(this.state.activeStep === 0) {
-      setTimeout(() => this.props.history.push('/dashboard'), 2000)
+      setTimeout(() => this.props.history.push('/'), 2000)
     }
   };
 

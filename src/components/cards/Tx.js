@@ -1,12 +1,12 @@
 import React, { Component } from 'react';
 import withStyles from '@material-ui/core/styles/withStyles';
 import Typography from '@material-ui/core/Typography';
-import Paper from '@material-ui/core/Paper';
+import Divider from '@material-ui/core/Divider';
 import mappings from '../common/mappings.js'
 
 const styles = theme => ({
-  paper: {
-    padding: theme.spacing.unit * 3,
+  root: {
+    paddingTop: theme.spacing.unit * 2,
     textAlign: 'left',
     color: theme.palette.text.secondary
   },
@@ -36,7 +36,7 @@ const styles = theme => ({
   },
   inline: {
     display: 'inline-block',
-    marginLeft: theme.spacing.unit * 4,
+    marginLeft: theme.spacing.unit * 1,
     [theme.breakpoints.down('sm')]: {
       marginLeft: 0
     }
@@ -44,7 +44,6 @@ const styles = theme => ({
   inlineRight: {
     width: '30%',
     textAlign: 'right',
-    marginLeft: 50,
     alignSelf: 'flex-end',
     [theme.breakpoints.down('sm')]: {
       width: '100%',
@@ -68,6 +67,7 @@ class Tx extends Component {
   render() {
     const { classes } = this.props;
     const tx = {};
+    console.log(this.props.tx)
     Object.keys(this.props.tx).forEach(
         (col)=>
         {
@@ -78,36 +78,29 @@ class Tx extends Component {
     
     return (
       <div className={classes.root}>
-        <Paper className={classes.paper}>
           <div className={classes.itemContainer}>
             <div className={classes.baseline}>
               <div className={classes.inline}>
-                <Typography variant="h6" gutterBottom>
-                </Typography>
               </div>
               <div className={classes.inline}>
-                <Typography style={{ textTransform: 'uppercase' }} color='secondary' gutterBottom>
+              <Typography style={{ textTransform: 'uppercase' }} color='secondary' gutterBottom>
+                {tx.Event}&nbsp;{tx.Action}
+                </Typography>
+                <Typography style={{ textTransform: 'uppercase' }}>
                   {tx.System}
                 </Typography>
-                <Typography variant="h6" gutterBottom>
-                  {tx.Event}&nbsp;{tx.Action}
-                </Typography>
-                  {tx.Subject}
-                <Typography variant="body2" gutterBottom>
+                <Typography variant="body2">
                   {tx.DateTime}
                 </Typography>
               </div>
             </div>
             <div className={classes.inlineRight}>
-              <Typography variant="h6" gutterBottom>
-                {tx.Entity}
-              </Typography>
-              <Typography variant="h6" gutterBottom>
-                {tx.Recorder}
+              <Typography style={{ textTransform: 'uppercase' }}>
+                {tx.Entity} {tx.Recorder}
               </Typography>
             </div>
-          </div>
-        </Paper>
+            </div>
+            <Divider />
       </div>
     )
   }
