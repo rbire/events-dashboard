@@ -1,43 +1,20 @@
 export const Events = {
-    'Price':['Increased','Decreased','Corrected'],
-    'Contract':['Signed','Cacelled', 'Expired'],
-    'Listing':['Active','Pending','Sold'],
-    'Offer':['Received','Accepted','Rejected'],
-    'Sale':['Pending','Closed'],
-    'Construction':['Started','Completed'],
-    'Project':['Approved','Rejected'],
-    'Documents':['Signed','Uploaded','Updated'],
-    'Title':['Changed'],
-    'Lein' : ['Recorded','Removed'],
-    'Funds' : ['Available','Transferred','Cancelled'],
-    'Deed':['Recorded']
+    'Application':['Started'],
+    'Personal':['Provided'],
+    'License1':['Provided','Transferred','Confirmed'],
+    'License2':['Provided','Transferred','Confirmed'],
+    'Experience':['Provided'],
+    'Financial':['Provided'],
+    'ICA':['Signed','Returned'],
+    'Email':['Verified'],
+    'Firm':['Joined']
 }
 
 export const Entities = {
-'Agent' :['AGNT001','AGNT002'],
-'Broker':['BRK001','BRK002'],
-'Builder':['BLD001','BLD002'],
-'Buyer':['BYR001','BYR002'],
-'City':['CTY001','CTY002'],
-'County':['CNTY001','CNTY002'],
-'Escrow':['ESC001','ESC002'],
-'Lender':['LND001','LND002'],
-'MLS':['MLS001','MLS002'],
-'Owner':['ONR001','ONR002'],
-'Vendor':['VNDR001','VNDR002']
+'Broker':['EXP-001-43-04'],
 }
 
 export const EntityEvents = {
-    'Agent' :['Offer','Contract','Price'],
-    'Broker':['Contract','Sale'],
-    'Builder':['Construction'],
-    'Buyer':['Offer','Contract'],
-    'City':['Project','Construction'],
-    'County':['Title','Deed'],
-    'Escrow':['Documents','Title'],
-    'Lender':['Lein','Funds'],
-    'MLS':['Listing','Sale','Price'],
-    'Owner':['Offer'],
-    'Vendor':['Listing']    
+    'Broker':['Application','Personal','License1','License2','Experience','Financial','ICA','Email','Firm'],
 }
 export default Event;

@@ -9,7 +9,9 @@ export function EventCatalog(conn){
             Events:[],
             Recorders:[],
             Entities:[],
-            Dates:[]
+            Dates:[],
+            Hours:[],
+            Subjects:[],
         }
         if(this.Socket){
             this.Socket.disconnect();
@@ -37,10 +39,15 @@ export function EventCatalog(conn){
                         if(key==='Entity'){
                             update(val,this.Counts.Entities);
                         }
+                        if(key==='Subject'){
+                            update(val,this.Counts.Subjects);
+                        }
                         if(key==='DateTime'){
                             let date = new Date(val);
-                            var k = date.getMonth()+'/'+date.getDate()+' '+date.getHours();
-                            update(k,this.Counts.Dates);
+                            var hk = date.getFullYear()+'/'+(date.getMonth()+1)+'/'+date.getDate();//date.getMonth()+'/'+date.getDate()+' '+date.getHours();
+                            update(hk,this.Counts.Hours);
+                            var dk = date.getFullYear()+'-'+(date.getMonth()+1)+'-'+date.getDate();
+                            update(dk,this.Counts.Dates);
                         }
                     })
                 msg.transaction = tx_mapped;

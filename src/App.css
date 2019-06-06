@@ -30,3 +30,39 @@
     transform: rotate(360deg);
   }
 }
+.color0{
+  fill:aliceblue
+}
+.color1{
+  fill: lightblue
+}
+.color2{
+  fill:cyan
+}
+.color3{
+  fill:lightpink
+}
+.color4{
+  fill:orange
+}
+.color5{
+  fill:red
+}
+.color6{
+  fill: plum
+}
+.color7{
+  fill: blueviolet
+}
+.color8{
+  fill:purple
+}
+.color9{
+  fill: blue
+}
+.rbc-event-content{
+  font-size: 10%
+}
+.rbc-event-label{
+  font-size: 0%
+}

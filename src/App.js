@@ -25,19 +25,23 @@ const theme = createMuiTheme({
 });
 
 var context = {
-  catalog:new EventCatalog('http://monitor.rbi.events/'),
+  catalog:new EventCatalog(
+    'http://192.168.99.100:30598'
+  ),
   system:'Event Test System',
   entity:'anonymous',
   recorder:"SIGN IN",
   events:{
-    ledger:new Ledger('http://ledger.rbi.events/'),
+    eventBus:null,
+    ledger:new Ledger('http://192.168.99.100:31481/'),
     showOnly:'',
     startAt:'',
     counts:{        
       Events:[],
       Recorders:[],
       Entities:[],
-      Dates:[]
+      Dates:[],
+      Hours:[]
     },
     data:[],
     callbackTx:[],
@@ -69,6 +73,15 @@ var context = {
     context.events.callbackTx.forEach(cb=>{
       cb(tx)
     })
+    if(context.events.eventBus!=null){
+      tx.id=tx.block;
+      var e = {
+        type: 'ADD_CARD',
+        laneId: tx.transaction.Event,
+        card: tx
+      }
+      context.events.eventBus.publish(e)
+    }
   },
   handleCounts:(counts) => {
     context.events.counts = counts;
@@ -83,6 +96,18 @@ var context = {
   registerCountCallback:(cb)=>{
     context.events.callbackCount.push(cb);
     cb(context.events.counts);
+  },
+  setEventBus:(eventBus)=>{
+    context.events.eventBus = eventBus;
+    context.events.data.forEach(tx =>{
+      tx.id=tx.block;
+      var e = {
+        type: 'ADD_CARD',
+        laneId: tx.transaction.Event,
+        card: tx
+      }
+      context.events.eventBus.publish(e)
+    })    
   }
 }
 
