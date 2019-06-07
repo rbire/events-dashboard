@@ -182,10 +182,11 @@ class Dashboard extends Component {
       <React.Fragment>
         <CssBaseline />
         <Topbar currentPath={currentPath} />
-        <div className={classes.root}>
+        <Ecm/>
+        {/*<div className={classes.root}>
           <Grid container justify="center">
             <Grid spacing={24} alignItems="center" justify="center" container className={classes.grid}>
-            <Grid item xs={12} md={3}>
+             <Grid item xs={12} md={3}>
                   <TextField
                     label="Sync from e.g. 0, 10 or 100..."
                     id="start"
@@ -217,19 +218,10 @@ class Dashboard extends Component {
                     Click To Post A Random Event
                   </Button>
               </Grid>
-              <Grid container spacing={24} justify="center">
-                <Grid item xs={12} md={12} >
-                    <Loading loading={loading} />
-                    <div className={loading ? classes.loadingState : ''}>
-                    </div>
-                    <Paper className={classes.paper} style={{position: 'relative'}}>
-                        <Ecm/>
-                    </Paper>
-                </Grid>
-              </Grid>
+                        
             </Grid>
           </Grid>
-        </div>
+        </div>*/}
       </React.Fragment>
     )
   }

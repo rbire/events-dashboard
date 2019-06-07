@@ -32,7 +32,6 @@ var context = {
   entity:'anonymous',
   recorder:"SIGN IN",
   events:{
-    eventBus:null,
     ledger:new Ledger('http://192.168.99.100:31481/'),
     showOnly:'',
     startAt:'',
@@ -48,7 +47,6 @@ var context = {
     callbackCount:[],
     tx:{
       transaction:{
-
       }
     }
   },
@@ -75,12 +73,6 @@ var context = {
     })
     if(context.events.eventBus!=null){
       tx.id=tx.block;
-      var e = {
-        type: 'ADD_CARD',
-        laneId: tx.transaction.Event,
-        card: tx
-      }
-      context.events.eventBus.publish(e)
     }
   },
   handleCounts:(counts) => {
@@ -91,23 +83,13 @@ var context = {
   },
   registerTxCallback:(cb)=>{
     context.events.callbackTx.push(cb);
-    cb(context.events.tx)
+    context.events.data.forEach(tx=>{
+      cb(tx)
+    })
   },
   registerCountCallback:(cb)=>{
     context.events.callbackCount.push(cb);
     cb(context.events.counts);
-  },
-  setEventBus:(eventBus)=>{
-    context.events.eventBus = eventBus;
-    context.events.data.forEach(tx =>{
-      tx.id=tx.block;
-      var e = {
-        type: 'ADD_CARD',
-        laneId: tx.transaction.Event,
-        card: tx
-      }
-      context.events.eventBus.publish(e)
-    })    
   }
 }
 

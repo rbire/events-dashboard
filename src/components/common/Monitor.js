@@ -3,7 +3,7 @@ import EventRadarChart from './RadarChart';
 import EventLineChart from './LineChart';
 import EventCalendarChart from './CalendarChart'
 import EventCalendar from './Calendar'
-import EventBoard from './Board'
+import EventBoard from './EventBoard'
 import EventBarChart from './BarChart';
 import UserContext from './UserContext';
 import Grid from '@material-ui/core/Grid';
@@ -89,22 +89,24 @@ class Ecm extends Component {
     var {Hours,Dates,Recorders,Events,Entities} = this.state;
     return (      
       <Grid container spacing={24}>
-      <Grid item xs={12} md={12} >
-          <EventCalendarChart counts={Dates}/>
-          <EventCalendar/>
-      </Grid>
-      <Grid item xs={12} md={12} >
+      {/*}
+      <Grid item xs={12} md={6} >
           <EventLineChart counts={Hours}/>                    
       </Grid>
-      <Grid item xs={12} md={5} >
-          <EventRadarChart counts={Entities}/>
-      </Grid>
-      <Grid item xs={12} md={5} >
+      <Grid item xs={12} md={6} >
           <EventBarChart counts={Events} layout="horizontal" height={150}/>       
       </Grid>
       <Grid item xs={12} md={12} >
-          <EventBarChart counts={Recorders} layout="vertical" height={500}/>
+          <EventCalendarChart counts={Dates}/>
+    </Grid>
+      <Grid item xs={12} md={12} >
+          <EventCalendar/>
+      </Grid>    
+    */}
+      <Grid item xs={12} md={12} >
+          <EventBoard/>
       </Grid>
+
       </Grid>
     )
   }
