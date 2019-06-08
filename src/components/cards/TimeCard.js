@@ -3,14 +3,21 @@ import React, { Component } from 'react';
 import withStyles from '@material-ui/core/styles/withStyles';
 import UserContext from '../common/UserContext';
 import Grid from '@material-ui/core/Grid';
+import Paper from '@material-ui/core/Paper';
+import GridListTile from '@material-ui/core/GridListTile';
 
 const styles = theme => ({
   card: {
-    backgroundColor:'#fff',
     color:'#101010',
-    borderRadius:0,
-    fontSize:'6pt'
+    fontSize:'8pt',
+    padding:2,
   },
+  paper:{
+    fontSize:'10pt',
+    minWidth:'20%',
+    margin:1,
+    borderRadius:0
+  }
 })
 
 class TimeCard extends Component {
@@ -37,18 +44,16 @@ class TimeCard extends Component {
     const { classes } = this.props;
     var cards = this.state.cards.map(tx=>{
         return (      
-          <Grid item md={1} className={classes.card}> 
-                {tx.transaction.Event} {tx.transaction.Action}           
-          </Grid>
+          <div className={classes.card}> 
+              {tx.transaction.Event} {tx.transaction.Action}           
+          </div>
         )
     })
     return (
-        <Grid alignItems="left" justify="left" container className={classes.grid}>
-              <Grid item md={1} className={classes.card} style={{fontWeight:'bold'}}> 
-                    #{this.props.subject}
-              </Grid>
+          <Paper className={classes.paper}>
+              #{this.props.subject}
               {cards}
-        </Grid>        
+          </Paper>
     )
   }
 }

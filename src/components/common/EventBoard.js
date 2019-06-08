@@ -4,9 +4,16 @@ import withStyles from '@material-ui/core/styles/withStyles';
 import Grid from '@material-ui/core/Grid';
 import LaneCard from '../cards/LaneCard'
 import TimeCard from '../cards/TimeCard'
-import Paper from '@material-ui/core/Paper';
-
 const styles = theme => ({
+    root: {
+        display: 'flex',
+        flexFlow: 'column wrap',
+        width: '100%',
+        overflow:'scroll',
+        height:450, 
+        padding:theme.spacing.unit * 1,
+        margin:1,    
+    },
     itemContainer: {
       transition: 'width 100ms ease-in-out'
     },
@@ -43,32 +50,27 @@ class EventBoard extends Component {
 
     render() {
         const { classes } = this.props;
+
         var lanes = Object.keys(this.state.lanes);
         var subjects = Object.keys(this.state.subjects);
         var lane_items = lanes.map(v=>{
             return(
-                <Grid item> 
-                      <LaneCard key={v} lane={v}/>
-                </Grid>
+                <LaneCard key={v} lane={v}/>
             )
         })
         var subject_items = subjects.map(v=>{
             return(
-                <Grid item xs={12}> 
-                      <TimeCard key={v} subject={v}/>
-                </Grid>
+                <TimeCard key={v} subject={v}/>
             )
         })
         return (
             <Grid container justify="left">
-                <Grid spacing={24} alignItems="left" justify="left" container className={classes.grid}>
-                    {lane_items}    
-                </Grid>
-                <Paper className={classes.paper} style={{backgroundColor:'#5b5d5f', padding:10, margin:10}}>
-                <Grid spacing={24} alignItems="left" justify="left" container className={classes.grid}>
-                        {subject_items}    
-                </Grid>
-                </Paper>
+                <div className={classes.root}>
+                {lane_items}    
+                </div>
+                <div className={classes.root} style={{height:350}}>
+                    {subject_items}    
+                </div>
             </Grid>  
         )
     }

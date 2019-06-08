@@ -10,22 +10,21 @@ import Paper from '@material-ui/core/Paper';
 const styles = theme => ({
   paper: {
     backgroundColor:'#125292',
-    minWidth:200,
-    maxWidth:200,
-    minHeight:250,
+    minWidth:'20%',
+    minHeight:100,
     overflow:'auto',
     textAlign: 'left',
     fontWeight:'bold',
     color:'darkgrey',
     padding:theme.spacing.unit * 1,
-    margin:theme.spacing.unit * 1,
-
+    margin:1,
+    borderRadius:0
   },
   card: {
-    marginTop:theme.spacing.unit * 1,
     padding: theme.spacing.unit * 1,
     backgroundColor:'#fff',
-    borderRadius:5
+    borderRadius:0,
+    margin:1
   },
 })
 
@@ -67,21 +66,21 @@ class LaneCard extends Component {
         const tx = this.state.cards[v];
         const eventLink="/ledger?subject="+tx.transaction.Subject;
         return (      
-          <Paper className={classes.card}>
+          <div className={classes.card}>
               <Link component={RouterLink} to={eventLink} style={{ fontSize: '30%' }}>
                 #{tx.transaction.Subject}               
               </Link>
               <Typography style={{ textTransform: 'uppercase',fontSize: '30%' }}  gutterBottom>
                   <strong>{tx.transaction.Action}</strong> : {tx.transaction.DateTime}           
               </Typography>
-          </Paper>
+          </div>
         )
     })
     return (
-      <Paper className={classes.paper}>
+      <div className={classes.paper}>
         {this.props.lane}
         {cards}
-      </Paper>
+      </div>
     )
   }
 }
