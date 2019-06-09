@@ -120,7 +120,7 @@ class Wizard extends Component {
     const queryString = this.props.location.search
     const parse = queryString ? qs.parse(queryString):{}
     this.state.subject = parse.subject? parse.subject : 
-    'US-043-04-' + Math.floor(Math.random()*40000)
+    'US-043-04-' + Math.floor(Math.random()*500000)
   }
   componentDidMount() {
 

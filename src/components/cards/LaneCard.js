@@ -5,12 +5,13 @@ import Typography from '@material-ui/core/Typography';
 import { Link as RouterLink } from 'react-router-dom'
 import Link from '@material-ui/core/Link';
 import UserContext from '../common/UserContext';
-import Paper from '@material-ui/core/Paper';
+import Icon from './EventIcon'
+import Grid from '@material-ui/core/Grid';
 
 const styles = theme => ({
   paper: {
     backgroundColor:'#125292',
-    minWidth:'20%',
+    minWidth:'15%',
     minHeight:100,
     overflow:'auto',
     textAlign: 'left',
@@ -65,15 +66,29 @@ class LaneCard extends Component {
     var cards = Object.keys(this.state.cards).map(v=>{
         const tx = this.state.cards[v];
         const eventLink="/ledger?subject="+tx.transaction.Subject;
-        return (      
-          <div className={classes.card}>
-              <Link component={RouterLink} to={eventLink} style={{ fontSize: '30%' }}>
-                #{tx.transaction.Subject}               
-              </Link>
-              <Typography style={{ textTransform: 'uppercase',fontSize: '30%' }}  gutterBottom>
-                  <strong>{tx.transaction.Action}</strong> : {tx.transaction.DateTime}           
-              </Typography>
-          </div>
+        return (
+        <Grid container spacing={2} className={classes.card}>
+          <Grid item>
+                <Icon name={this.props.lane}></Icon>
+          </Grid>
+          <Grid item xs={12} sm container>
+                <Grid item xs container direction="column" spacing={2}>
+                    <Grid item xs>
+                            <strong>{tx.transaction.Event} {tx.transaction.Action}</strong>                 
+                    </Grid>
+                    <Grid item xs>
+                    <Link component={RouterLink} to={eventLink} >
+                    #{tx.transaction.Subject}
+                    </Link>
+                    </Grid>
+                    <Grid item xs>
+                        <Typography style={{ textTransform: 'uppercase',fontSize: '30%' }}  gutterBottom>
+                            {tx.transaction.DateTime}           
+                        </Typography>
+                    </Grid>
+               </Grid> 
+            </Grid>
+         </Grid>
         )
     })
     return (

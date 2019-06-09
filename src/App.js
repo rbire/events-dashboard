@@ -53,16 +53,20 @@ var context = {
   handleChange:(state) => {
     context.entity = state.entity;
     context.recorder = state.recorder;
-    context.events.startAt  = 0;
+    //context.events.startAt  = 0;
     context.events.showOnly = state.recorder;
     setTimeout(context.startMonitor,100);
   },
   startMonitor(){
     context.events.data=[];
     context.catalog.Sync(context.events.startAt,context.events.showOnly.split(" "), (tx) => {
-      context.handleEvent(tx); 
-    },(counts) => {
-      context.handleCounts(counts); 
+      if(context.events.startAt==''){
+        var startAt = parseFloat(tx.block)-100
+        context.events.startAt = startAt > 0?startAt:0
+        setTimeout(context.startMonitor,100)
+      }else{
+        context.handleEvent(tx)
+      } 
     });                  
   },
   handleEvent:(tx) => {
@@ -70,10 +74,7 @@ var context = {
     context.events.data.push(tx);
     context.events.callbackTx.forEach(cb=>{
       cb(tx)
-    })
-    if(context.events.eventBus!=null){
-      tx.id=tx.block;
-    }
+    })    
   },
   handleCounts:(counts) => {
     context.events.counts = counts;

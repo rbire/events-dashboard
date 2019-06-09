@@ -30,7 +30,7 @@ export function EventCatalog(conn){
                         let key = (mappings[col]!='undefined' ? mappings[col]:col);
                         let val = tx[col];
                         tx_mapped[key] = val;
-                        if(key==='Event'){
+                        /*if(key==='Event'){
                             update(val,this.Counts.Events)               
                         }
                         if(key==='Recorder'){
@@ -48,14 +48,14 @@ export function EventCatalog(conn){
                             update(hk,this.Counts.Hours);
                             var dk = date.getFullYear()+'-'+(date.getMonth()+1)+'-'+date.getDate();
                             update(dk,this.Counts.Dates);
-                        }
+                        }*/
                     })
                 msg.transaction = tx_mapped;
                 cbTx(msg); 
-                clearTimeout(this.trigger);
+                /*clearTimeout(this.trigger);
                 this.trigger = setTimeout(function(){
                     cbCount(Object.assign({}, this.Counts)); 
-                }.bind(this),10);           
+                }.bind(this),10);      */     
             }
         });    
     }

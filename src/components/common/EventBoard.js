@@ -10,7 +10,7 @@ const styles = theme => ({
         flexFlow: 'column wrap',
         width: '100%',
         overflow:'scroll',
-        height:450, 
+        height:800, 
         padding:theme.spacing.unit * 1,
         margin:1,    
     },
@@ -68,9 +68,10 @@ class EventBoard extends Component {
                 <div className={classes.root}>
                 {lane_items}    
                 </div>
-                <div className={classes.root} style={{height:350}}>
+                {/*}
+                <div className={classes.root}>
                     {subject_items}    
-                </div>
+        </div>*/}
             </Grid>  
         )
     }
