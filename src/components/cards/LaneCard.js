@@ -33,7 +33,6 @@ class LaneCard extends Component {
   constructor(props) {
     super(props)
     this.state = {
-        cards:{}
     }
   }  
 
@@ -43,29 +42,13 @@ class LaneCard extends Component {
       search: '#'
     })
   }
-
-  componentWillMount(){
-    this.context.registerTxCallback(this.handleEvent.bind(this));       
-  }    
-
-  handleEvent(newCard){
-      var lane = newCard.transaction.Event
-      var subject = newCard.transaction.Subject
-      var cards = this.state.cards;
-      if(cards[subject]!=undefined){
-        delete cards[subject]
-      }
-      if(lane==this.props.lane){
-          cards[subject] = newCard
-      }
-      this.setState({cards})
-  }
     
   render() {
-    const { classes } = this.props;
-    var cards = Object.keys(this.state.cards).map(v=>{
-        const tx = this.state.cards[v];
-        const eventLink="/ledger?subject="+tx.transaction.Subject;
+    const { classes, lane } = this.props
+    const lane_item = this.context.state.lanes[lane]
+    var cards = Object.keys(lane_item.subjects).map(v=>{
+        const tx = lane_item.subjects[v];
+        const eventLink="/ledger?subject="+tx.Subject;
         return (
         <Grid container spacing={2} className={classes.card}>
           <Grid item>
@@ -74,16 +57,16 @@ class LaneCard extends Component {
           <Grid item xs={12} sm container>
                 <Grid item xs container direction="column" spacing={2}>
                     <Grid item xs>
-                            <strong>{tx.transaction.Event} {tx.transaction.Action}</strong>                 
+                            <strong>{tx.Event} {tx.Action}</strong>                 
                     </Grid>
                     <Grid item xs>
                     <Link component={RouterLink} to={eventLink} >
-                    #{tx.transaction.Subject}
+                    #{tx.Subject}
                     </Link>
                     </Grid>
                     <Grid item xs>
                         <Typography style={{ textTransform: 'uppercase',fontSize: '30%' }}  gutterBottom>
-                            {tx.transaction.DateTime}           
+                            {tx.DateTime}           
                         </Typography>
                     </Grid>
                </Grid> 

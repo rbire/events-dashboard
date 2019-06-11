@@ -25,6 +25,10 @@ const theme = createMuiTheme({
 });
 
 var context = {
+  state : {
+      lanes:{},
+      subjects:{}
+  },
   catalog:new EventCatalog(
     'http://192.168.99.100:30598'
   ),
@@ -43,7 +47,7 @@ var context = {
       Hours:[]
     },
     data:[],
-    callbackTx:[],
+    callbackTx:{},
     callbackCount:[],
     tx:{
       transaction:{
@@ -53,12 +57,15 @@ var context = {
   handleChange:(state) => {
     context.entity = state.entity;
     context.recorder = state.recorder;
-    //context.events.startAt  = 0;
     context.events.showOnly = state.recorder;
     setTimeout(context.startMonitor,100);
   },
   startMonitor(){
-    context.events.data=[];
+    context.events.data=[]
+    context.state = {
+      lanes:{},
+      subjects:{}
+    }    
     context.catalog.Sync(context.events.startAt,context.events.showOnly.split(" "), (tx) => {
       if(context.events.startAt==''){
         var startAt = parseFloat(tx.block)-100
@@ -70,33 +77,62 @@ var context = {
     });                  
   },
   handleEvent:(tx) => {
-    context.events.tx = tx;
+    context.events.tx = tx;    
     context.events.data.push(tx);
-    context.events.callbackTx.forEach(cb=>{
-      cb(tx)
-    })    
+
+    //remove subject from old bucket
+    var subject = context.state.subjects[tx.transaction.Subject] 
+    if(subject != undefined){
+      delete context.state.lanes[subject.Event].subjects[subject.Subject]
+    }
+    //set/update subject
+    context.state.subjects[tx.transaction.Subject] = tx.transaction
+    
+
+    //create new event bucket
+    if(context.state.lanes[tx.transaction.Event]==undefined){
+      context.state.lanes[tx.transaction.Event] = {
+        count:0,
+        actions:{},
+        subjects:{},
+      }
+    }    
+    //increament event count  
+    var e = context.state.lanes[tx.transaction.Event];
+    e.count += 1
+    //set new subject
+    e.subjects[tx.transaction.Subject] = tx.transaction
+
+    //create event action bucket
+    if(e.actions[tx.transaction.Action] == undefined){
+        e.actions[tx.transaction.Action] = {
+          count : 0
+        }     
+    }
+    //increament event action count
+    var a = e.actions[tx.transaction.Action]
+    a.count+=1
+
+    Object.keys(context.events.callbackTx).forEach((k)=>{
+      var cb = context.events.callbackTx[k];
+      if(cb!=null){
+        cb(tx)
+      }
+    })   
   },
-  handleCounts:(counts) => {
-    context.events.counts = counts;
-    context.events.callbackCount.forEach(cb=>{
-      cb(counts)
-    })
+  registerTxCallback:(key,cb)=>{
+    context.events.callbackTx[key] = cb
   },
-  registerTxCallback:(cb)=>{
-    context.events.callbackTx.push(cb);
-    context.events.data.forEach(tx=>{
-      cb(tx)
-    })
+  unRegisterTxCallback:(key)=>{
+    delete context.events.callbackTx[key];
   },
-  registerCountCallback:(cb)=>{
-    context.events.callbackCount.push(cb);
-    cb(context.events.counts);
-  }
 }
 
 class App extends Component {
   constructor(props) {
     super(props);
+  }
+  componentDidMount(){
     context.startMonitor();
   } 
   render() {

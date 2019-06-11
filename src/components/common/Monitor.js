@@ -81,7 +81,7 @@ class Ecm extends Component {
   }
 
   componentWillMount(){
-    this.context.registerCountCallback(this.handleEvent.bind(this));
+     //this.context.registerCountCallback(this.handleEvent.bind(this));
   }
 
   render() {
