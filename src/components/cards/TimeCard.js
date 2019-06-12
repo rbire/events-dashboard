@@ -1,84 +1,47 @@
 
 import React, { Component } from 'react';
-import Paper from '@material-ui/core/Paper';
-import red from '@material-ui/core/colors/red';
-import PersonIcon from '@material-ui/icons/Person';
 import withStyles from '@material-ui/core/styles/withStyles';
 import UserContext from '../common/UserContext';
-
-
-import FolderIcon from '@material-ui/icons/Folder';
-import PageviewIcon from '@material-ui/icons/Pageview';
-import InboxIcon from '@material-ui/icons/Inbox';
-import DraftsIcon from '@material-ui/icons/Drafts';
-import AssignmentIcon from '@material-ui/icons/Assignment';
-import DoneIcon from '@material-ui/icons/Done';
-import CheckCircleIcon from '@material-ui/icons/CheckCircle';
-
-import List from '@material-ui/core/List';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemIcon from '@material-ui/core/ListItemIcon';
-import ListItemText from '@material-ui/core/ListItemText';
-
+import Icon from '../cards/EventIcon'
+import Grid from '@material-ui/core/Grid';
 
 const styles = theme => ({
   card: {
-    color:'#101010',
-    fontSize:'8pt',
-    padding:0,
-  },
-  paper:{
-    fontSize:'10pt',
-    width:'15%',
-    margin:1,
-    borderRadius:0
-  } 
+      fontSize:'6pt',
+      backgroundColor:'#000',
+      minHeight:100,
+      overflow:'auto',
+      textAlign: 'center',
+      fontWeight:'normal',
+      color:'#fff',
+      padding:theme.spacing.unit * 1,
+      margin:1,
+      borderRadius:0    
+} 
 })
 
 class TimeCard extends Component {
   constructor(props) {
     super(props)
     this.state = {
-        cards:[]
     }
-  }  
-  componentWillMount(){
-    this.context.registerTxCallback(this.handleEvent.bind(this));       
-  }    
-
-  handleEvent(newCard){
-      var subject = newCard.transaction.Subject
-      if(subject==this.props.subject){
-      var cards = this.state.cards
-      cards.push(newCard)
-      this.setState({cards})
-      }
-  }
-    
+  }      
   render() {
-    const { classes } = this.props;
-    var cards = this.state.cards.map(tx=>{
+    const { classes, subject } = this.props;
+    var cards = subject.events.map(transaction=>{
         return (
-          <ListItem className={classes.card}>
-          <ListItemIcon>
-            <CheckCircleIcon />
-          </ListItemIcon>
-          <ListItemText secondary={tx.transaction.Event +' '+ tx.transaction.Action}/>
-        </ListItem>     
+                <Icon name={transaction.Event} small></Icon>
         )
     })
     return (
-          <Paper className={classes.paper}>
-              <List component="nav" aria-label="Main mailbox folders">
-                <ListItem button>
-                  <ListItemIcon>
-                      <PersonIcon />
-                    </ListItemIcon>
-                  <ListItemText primary={this.props.subject} />
-                 </ListItem>          
-                  {cards}
-              </List>              
-          </Paper>
+      <Grid container spacing={3} xs={12} className={classes.card}>
+            <Grid item xs={12}>
+                {subject.state.Subject}
+            </Grid>
+            <Grid item xs={12}>
+                {cards}
+            </Grid>
+      </Grid>
     )
   }
 }

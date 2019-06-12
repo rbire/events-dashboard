@@ -18,7 +18,6 @@ const styles = theme => ({
     fontWeight:'bold',
     color:'darkgrey',
     padding:theme.spacing.unit * 1,
-    margin:1,
     borderRadius:0
   },
   card: {
@@ -50,24 +49,26 @@ class LaneCard extends Component {
         const tx = lane_item.subjects[v];
         const eventLink="/ledger?subject="+tx.Subject;
         return (
-        <Grid container spacing={2} className={classes.card}>
-          <Grid item>
+        <Grid container spacing={3} className={classes.card}>
+          <Grid item  item xs={1}>
                 <Icon name={this.props.lane}></Icon>
           </Grid>
-          <Grid item xs={12} sm container>
+          <Grid item xs={11} sm container>
                 <Grid item xs container direction="column" spacing={2}>
-                    <Grid item xs>
-                            <strong>{tx.Event} {tx.Action}</strong>                 
-                    </Grid>
-                    <Grid item xs>
-                    <Link component={RouterLink} to={eventLink} >
-                    #{tx.Subject}
-                    </Link>
-                    </Grid>
-                    <Grid item xs>
-                        <Typography style={{ textTransform: 'uppercase',fontSize: '30%' }}  gutterBottom>
+                    <Grid item>
+                          <Typography style={{ textTransform: 'uppercase',fontSize: '30%' }}  gutterBottom>
+                              <strong>{tx.Event} {tx.Action}</strong>                 
+                          </Typography>
+                          <Typography style={{ textTransform: 'uppercase',fontSize: '30%' }}  gutterBottom>
                             {tx.DateTime}           
                         </Typography>
+                    </Grid>
+                    <Grid item>
+                    <Typography style={{ textTransform: 'uppercase',fontSize: '80%' }}  gutterBottom>
+                      <Link component={RouterLink} to={eventLink} >
+                        #{tx.Subject}
+                      </Link>
+                      </Typography>
                     </Grid>
                </Grid> 
             </Grid>

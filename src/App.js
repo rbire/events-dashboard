@@ -6,6 +6,8 @@ import { blue, indigo } from '@material-ui/core/colors'
 import UserContext from './components/common/UserContext';
 import EventCatalog from './components/common/events';
 import Ledger from './components/common/Ledger'
+import { setTimeout } from 'timers';
+
 const theme = createMuiTheme({
   palette: {
     secondary: {
@@ -26,8 +28,9 @@ const theme = createMuiTheme({
 
 var context = {
   state : {
-      lanes:{},
-      subjects:{}
+    cb:null,
+    lanes:{},
+    subjects:{}
   },
   catalog:new EventCatalog(
     'http://192.168.99.100:30598'
@@ -38,7 +41,8 @@ var context = {
   events:{
     ledger:new Ledger('http://192.168.99.100:31481/'),
     showOnly:'',
-    startAt:'',
+    startAt:'Last',
+    endAt:'Last',
     counts:{        
       Events:[],
       Recorders:[],
@@ -48,28 +52,30 @@ var context = {
     },
     data:[],
     callbackTx:{},
-    callbackCount:[],
     tx:{
       transaction:{
       }
     }
+  }, init : () =>{
+    context.events.data=[]
+    context.state.lanes = {}
+    context.state.subjects = {}
   },
   handleChange:(state) => {
-    context.entity = state.entity;
-    context.recorder = state.recorder;
-    context.events.showOnly = state.recorder;
+    context.init()
+    context.entity = state.entity
+    context.recorder = state.recorder
+    context.events.showOnly = state.recorder
     setTimeout(context.startMonitor,100);
   },
   startMonitor(){
-    context.events.data=[]
-    context.state = {
-      lanes:{},
-      subjects:{}
-    }    
-    context.catalog.Sync(context.events.startAt,context.events.showOnly.split(" "), (tx) => {
-      if(context.events.startAt==''){
+    context.catalog.Sync(context.events.startAt,context.events.endAt, context.events.showOnly.split(" "), (tx) => {
+      if(tx.block==context.events.startAt){
+        context.init()
+      }
+      if(context.events.startAt=='Last'){
         var startAt = parseFloat(tx.block)-100
-        context.events.startAt = startAt > 0?startAt:0
+        context.events.startAt = startAt > 3?startAt:3
         setTimeout(context.startMonitor,100)
       }else{
         context.handleEvent(tx)
@@ -83,12 +89,16 @@ var context = {
     //remove subject from old bucket
     var subject = context.state.subjects[tx.transaction.Subject] 
     if(subject != undefined){
-      delete context.state.lanes[subject.Event].subjects[subject.Subject]
+      delete context.state.lanes[subject.state.Event].subjects[subject.state.Subject]
+      subject.state = tx.transaction
+      subject.events.push(tx.transaction)  
+    }else{
+      subject = {
+        state : tx.transaction,
+        events : [tx.transaction]
+      }
+      context.state.subjects[tx.transaction.Subject] = subject
     }
-    //set/update subject
-    context.state.subjects[tx.transaction.Subject] = tx.transaction
-    
-
     //create new event bucket
     if(context.state.lanes[tx.transaction.Event]==undefined){
       context.state.lanes[tx.transaction.Event] = {
@@ -102,7 +112,6 @@ var context = {
     e.count += 1
     //set new subject
     e.subjects[tx.transaction.Subject] = tx.transaction
-
     //create event action bucket
     if(e.actions[tx.transaction.Action] == undefined){
         e.actions[tx.transaction.Action] = {
@@ -112,13 +121,20 @@ var context = {
     //increament event action count
     var a = e.actions[tx.transaction.Action]
     a.count+=1
-
+    //callbacks
+    if(context.state.cb){
+       window.clearTimeout(context.state.cb)       
+    }
+    context.state.cb = window.setTimeout(context.runTxCallback,1000)
+  },
+  runTxCallback:()=>{
     Object.keys(context.events.callbackTx).forEach((k)=>{
       var cb = context.events.callbackTx[k];
       if(cb!=null){
-        cb(tx)
+        console.log(k)      
+        cb()
       }
-    })   
+    })     
   },
   registerTxCallback:(key,cb)=>{
     context.events.callbackTx[key] = cb

@@ -3,19 +3,14 @@ import withStyles from '@material-ui/core/styles/withStyles';
 import Paper from '@material-ui/core/Paper';
 import UserContext from '../common/UserContext';
 import Typography from '@material-ui/core/Typography';
+import Grid from '@material-ui/core/Grid';
+import { formatWithOptions } from 'util';
 
 const styles = theme => ({
   paper: {
-    backgroundColor:'#125292',
-    minWidth:'15%',
-    minHeight:50,
-    overflow:'auto',
-    textAlign: 'left',
-    fontWeight:'bold',
-    color:'#fff',
-    padding:theme.spacing.unit * 1,
-    margin:1,
-    borderRadius:0
+    textAlign: 'center',
+    color:'#000',
+    fontSize:'60%'
   },
 })
 
@@ -34,12 +29,7 @@ class Count extends Component {
         }
     }
     return (
-      <Paper className={classes.paper}>
-            <Typography gutterBottom>
-            {label}
-            </Typography>
-            {count}
-      </Paper>
+            <Typography className={classes.paper}>{label}(<strong>{count}</strong>)</Typography>
     )
   }
 }
