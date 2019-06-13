@@ -18,6 +18,7 @@ import {Events, Entities, EntityEvents} from './common/Lookups';
 import Button from '@material-ui/core/Button';
 import Card from './cards/Card';
 
+
 const numeral = require('numeral');
 numeral.defaultFormat('0,000');
 
@@ -181,6 +182,7 @@ class Dashboard extends Component {
     return (
       <React.Fragment>
         <CssBaseline />
+
         {/*<Topbar currentPath={currentPath} />*/}
         <Ecm/>
 

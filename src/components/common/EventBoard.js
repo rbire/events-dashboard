@@ -6,6 +6,7 @@ import LaneCard from '../cards/LaneCard'
 import TimeCard from '../cards/TimeCard'
 import Count from '../cards/Count'
 import Icon from '../cards/EventIcon'
+import AutoPlay from './Slider'
 
 const styles = theme => ({
     root: {
@@ -19,19 +20,7 @@ const styles = theme => ({
     },
     itemContainer: {
       transition: 'width 100ms ease-in-out'
-    },
-    count:{
-        backgroundColor:'#125292',
-        minHeight:'10vh',
-        flex:1,
-        overflow:'auto',
-        textAlign: 'center',
-        fontWeight:'normal',
-        color:'#fff',
-        padding:theme.spacing.unit * 1,
-        margin:1,
-        borderRadius:0    
-    }    
+    }
 })
 class EventBoard extends Component {
     constructor(props) {
@@ -57,8 +46,8 @@ class EventBoard extends Component {
         var subjects = Object.keys(this.context.state.subjects)
         var subject_items = subjects.map(v=>{
             return(
-                <Grid item xs={1} >
-                    <TimeCard key={v} subject={this.context.state.subjects[v]}/>
+                <Grid key={v}  item xs={1} >
+                    <TimeCard subject={this.context.state.subjects[v]}/>
                </Grid>          
             )
         })
@@ -72,8 +61,8 @@ class EventBoard extends Component {
             var actions = Object.keys(this.context.state.lanes[v].actions)
             var action_items = actions.map(a=>{
                 return(
-                    <Grid item xs={12} >
-                    <Count key={a} label={a} lane={v} action={a}/>
+                    <Grid key={a} item xs={12} >
+                    <Count  label={a} lane={v} action={a}/>
                     </Grid>
                 )
             })
@@ -95,6 +84,7 @@ class EventBoard extends Component {
             <Grid container justify="left">
                 <Grid item xs={12}>                    
                     <div className={classes.root} style={{height:'10vh'}}>
+
                     {event_counts}
                     </div>
                 </Grid>
@@ -103,12 +93,13 @@ class EventBoard extends Component {
                     {lane_items}
                     </div>
                 </Grid>
-                <Grid item xs={12}>                    
-                    <div className={classes.root} style={{height:'10vh'}}>
-                    {subject_items}    
+                <Grid item xs={12}> 
+                    <div style={{height:'10vh'}}>
+                    <AutoPlay>
+                    {subject_items}
+                    </AutoPlay>
                     </div>
                 </Grid>
-
             </Grid>  
         )
     }

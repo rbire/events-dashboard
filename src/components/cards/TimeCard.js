@@ -10,13 +10,13 @@ const styles = theme => ({
       fontSize:'6pt',
       backgroundColor:'#000',
       minHeight:100,
+      minWidth:135,
       overflow:'auto',
       textAlign: 'center',
       fontWeight:'normal',
       color:'#fff',
-      padding:theme.spacing.unit * 1,
-      margin:1,
-      borderRadius:0    
+      padding:theme.spacing.unit * 0,
+      margin:0,
 } 
 })
 
