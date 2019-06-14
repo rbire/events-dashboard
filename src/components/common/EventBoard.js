@@ -14,7 +14,7 @@ const styles = theme => ({
         flexFlow: 'column wrap',
         width: '100%',
         overflow:'auto',
-        margin:-1,    
+        margin:0,    
         padding:1,
         flex:1
     },
@@ -83,18 +83,17 @@ class EventBoard extends Component {
         return (
             <Grid container justify="left">
                 <Grid item xs={12}>                    
-                    <div className={classes.root} style={{height:'10vh'}}>
-
+                    <div className={classes.root} style={{height:'6vh'}}>
                     {event_counts}
                     </div>
                 </Grid>
                 <Grid item xs={12} >
-                    <div className={classes.root} style={{height:'80vh'}}>
+                    <div className={classes.root} style={{height:'84vh', paddingBottom:'1vh', backgroundColor:'#125292'}}>
                     {lane_items}
                     </div>
                 </Grid>
                 <Grid item xs={12}> 
-                    <div style={{height:'10vh'}}>
+                    <div style={{height:'10vh',overflow:'hidden'}}>
                     <AutoPlay>
                     {subject_items}
                     </AutoPlay>

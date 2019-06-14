@@ -7,7 +7,7 @@ import Grid from '@material-ui/core/Grid';
 
 const styles = theme => ({
   card: {
-      fontSize:'6pt',
+      fontSize:'8pt',
       backgroundColor:'#000',
       minHeight:100,
       minWidth:135,
@@ -15,7 +15,7 @@ const styles = theme => ({
       textAlign: 'center',
       fontWeight:'normal',
       color:'#fff',
-      padding:theme.spacing.unit * 0,
+      padding:theme.spacing.unit * 1,
       margin:0,
 } 
 })
@@ -40,6 +40,9 @@ class TimeCard extends Component {
             </Grid>
             <Grid item xs={12}>
                 {cards}
+            </Grid>
+            <Grid item xs={12}>
+                {subject.state.Event}  {subject.state.Action}
             </Grid>
       </Grid>
     )

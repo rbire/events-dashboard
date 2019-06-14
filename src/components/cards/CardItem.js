@@ -4,7 +4,7 @@ import Typography from '@material-ui/core/Typography';
 import Divider from '@material-ui/core/Divider';
 import { Link as RouterLink } from 'react-router-dom'
 import Link from '@material-ui/core/Link';
-
+import Icon from './EventIcon'
 const styles = theme => ({
   root: {
     padding: theme.spacing.unit * 1,
@@ -76,20 +76,21 @@ class CardItem extends Component {
           <div className={classes.itemContainer}>
             <div className={classes.baseline}>
               <div className={classes.inline}>
-                <Typography gutterBottom>
+                <Icon name={tx.transaction.Event}/>
+                <Typography style={{fontSize:'50%'}}>
                   #{tx.block}
                 </Typography>
               </div>
               <div className={classes.inline}>
-                <Typography style={{ textTransform: 'uppercase' }}  gutterBottom>
+                <Typography style={{ textTransform: 'uppercase' }}  >
                 {tx.transaction.Event} {tx.transaction.Action}
                 </Typography>
-                posted by {tx.transaction.Entity} {tx.transaction.Recorder}
+                posted by {tx.transaction.Recorder}
               </div>
             </div>
             <div className={classes.inlineRight}>
                <Link component={RouterLink} to={eventLink}>
-              <Typography style={{ textTransform: 'uppercase' }} color='secondary' gutterBottom>
+              <Typography style={{ textTransform: 'uppercase' }} color='secondary' >
               {tx.transaction.Subject}             
             </Typography>
             </Link>

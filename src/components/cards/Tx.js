@@ -3,7 +3,7 @@ import withStyles from '@material-ui/core/styles/withStyles';
 import Typography from '@material-ui/core/Typography';
 import Divider from '@material-ui/core/Divider';
 import mappings from '../common/mappings.js'
-
+import Icon from './EventIcon'
 const styles = theme => ({
   root: {
     paddingTop: theme.spacing.unit * 2,
@@ -81,13 +81,11 @@ class Tx extends Component {
           <div className={classes.itemContainer}>
             <div className={classes.baseline}>
               <div className={classes.inline}>
+                    <Icon name={tx.Event}></Icon>
               </div>
               <div className={classes.inline}>
-              <Typography style={{ textTransform: 'uppercase' }} color='secondary' gutterBottom>
+              <Typography style={{ textTransform: 'uppercase' }} color='secondary'>
                 {tx.Event}&nbsp;{tx.Action}
-                </Typography>
-                <Typography style={{ textTransform: 'uppercase' }}>
-                  {tx.System}
                 </Typography>
                 <Typography variant="body2">
                   {tx.DateTime}

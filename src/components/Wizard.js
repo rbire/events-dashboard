@@ -112,7 +112,7 @@ class Wizard extends Component {
     activeStep: 0,
     labelWidth: 0,
     subject:'',
-    subjectType:'Agent',
+    subjectType:'Application',
     eventItem:events[0],
     actionItem:Events[events[0]][0]
   }
@@ -120,7 +120,7 @@ class Wizard extends Component {
     const queryString = this.props.location.search
     const parse = queryString ? qs.parse(queryString):{}
     this.state.subject = parse.subject? parse.subject : 
-    'US-043-04-' + Math.floor(Math.random()*500000)
+    Math.floor(Math.random()*100) + '' + Math.floor(Math.random()*100)+ '' + Math.floor(Math.random()*1000)
   }
   componentDidMount() {
 

@@ -24,8 +24,7 @@ var mapSmall = {
   'Financial':  <AccountBalance style={small}/>,
   'Experience':<InboxIcon style={small}/>,
   'ICA':<AssignmentIcon style={small}/>,
-  'Email':<DraftsIcon style={small}/>,
-  'Firm' : <VerifiedUser style={small}/>,
+  'Email':<DraftsIcon style={small}/>
 }
 var mapNormal = {
   'Person':   <PersonIcon/>,
@@ -36,8 +35,7 @@ var mapNormal = {
   'Financial':  <AccountBalance />,
   'Experience':<InboxIcon/>,
   'ICA':<AssignmentIcon/>,
-  'Email':<DraftsIcon/>,
-  'Firm' : <VerifiedUser/>,
+  'Email':<DraftsIcon/>
 }
 
 function EventIcon(props) {
